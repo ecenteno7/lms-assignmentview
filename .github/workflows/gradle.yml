@@ -14,7 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
+    - name: Create SSH directory
+      run: mkdir -p ~/.ssh
     - name: Add SSH private key
       run: echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
 
