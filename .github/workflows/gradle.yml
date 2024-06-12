@@ -40,6 +40,6 @@ jobs:
         source: "server/lms/build/libs/assignment-view-0.0.1-SNAPSHOT.jar"
         target: "/home/dev/srv/spring"
 
-    - run: java -jar /home/dev/srv/spring/server/lms/build/libs/assignment-view-0.0.1-SNAPSHOT.jar
+    - run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} "java -jar /home/dev/srv/spring/assignment-view-0.0.1-SNAPSHOT.jar"
       name: Start server
 
