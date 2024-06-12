@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: lms
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: org.postgresql.Driver
