@@ -14,10 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Create SSH directory
-      run: mkdir -p ~/.ssh
-    - name: Add SSH private key
-      run: echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
 
     - name: Add remote server to known_hosts
       run: ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
@@ -50,9 +46,14 @@ jobs:
         source: "server/lms/build/libs/assignment-view-0.0.1-SNAPSHOT.jar"
         target: "/home/dev/srv/spring/assignment-view-0.0.1-SNAPSHOT.jar"
 
-    - name: Reload Systemd Daemon
-      run: ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} "sudo systemctl daemon-reload"
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: sudo systemctl daemon-reload && sudo systemctl restart spring-boot-app
 
-    - name: Restart Spring Boot Application Service
-      run: ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} "sudo systemctl restart spring-boot-app"
 
