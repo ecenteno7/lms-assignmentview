@@ -40,6 +40,9 @@ jobs:
         source: "server/lms/build/libs/assignment-view-0.0.1-SNAPSHOT.jar"
         target: "/home/dev/srv/spring"
 
-    - run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} "java -jar /home/dev/srv/spring/assignment-view-0.0.1-SNAPSHOT.jar"
-      name: Start server
+    - name: Reload Systemd Daemon
+      run: ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "sudo systemctl daemon-reload"
+
+    - name: Restart Spring Boot Application Service
+      run: ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "sudo systemctl restart spring-boot-app"
 
