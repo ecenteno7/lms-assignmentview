@@ -39,7 +39,7 @@ jobs:
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
     - name: Build with Gradle Wrapper
-      run: cd server/lms && ./gradlew build
+      run: cd server/lms && sudo ./gradlew build
 
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
