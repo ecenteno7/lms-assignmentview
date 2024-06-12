@@ -36,7 +36,7 @@ jobs:
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@94a526b5833575584851de8418553a90b618971d 
+      uses: gradle/actions/setup-gradle@af6e5767241073b8ab20cc8cf7e95ec63fadc160 
       with:
         java-version: '21'
         distribution: 'temurin'
