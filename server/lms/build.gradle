@@ -55,6 +55,6 @@ bootRun {
 tasks.register("testPrint") {
     doLast {
         println("This is a test print on build")
-        println(System.getenv("SPRING_DATASOURCE_URL"))
+        println("URL: " + System.getenv("SPRING_DATASOURCE_URL"))
     }
 }
