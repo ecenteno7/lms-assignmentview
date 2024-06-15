@@ -52,7 +52,9 @@ bootRun {
     systemProperty("spring.datasource.password", "password")
 }
 
-build {
-    println("This is a test print on build")
-    println(System.getenv("SPRING_DATASOURCE_URL"))
+tasks.register("testPrint") {
+    doLast {
+        println("This is a test print on build")
+        println(System.getenv("SPRING_DATASOURCE_URL"))
+    }
 }
