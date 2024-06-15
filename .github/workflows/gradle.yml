@@ -36,7 +36,7 @@ jobs:
       uses: spring-io/spring-gradle-build-action@v2
 
     - name: Build with Gradle Wrapper
-      run: cd server/lms && ./gradlew build --info --stacktrace
+      run: cd server/lms && ./gradlew testPrint && ./gradlew build --info --stacktrace
 
     - name: List build directory
       run: ls -l server/lms/build/libs
