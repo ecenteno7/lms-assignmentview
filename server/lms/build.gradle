@@ -51,3 +51,8 @@ bootRun {
     systemProperty("spring.datasource.username", "postgres")
     systemProperty("spring.datasource.password", "password")
 }
+
+build {
+    println("This is a test print on build")
+    println(System.getenv("SPRING_DATASOURCE_URL"))
+}
