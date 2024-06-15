@@ -39,6 +39,7 @@ dependencies {
 
     liquibaseRuntime("org.liquibase:liquibase-core")
     liquibaseRuntime("org.postgresql:postgresql")
+    liquibaseRuntime("info.picocli:picocli:4.6.3")
 }
 
 tasks.named('test') {
@@ -47,9 +48,20 @@ tasks.named('test') {
 
 bootRun {
     // database credentials
-    systemProperty("spring.datasource.url", "jdbc:postgresql://localhost:5432/lms")
-    systemProperty("spring.datasource.username", "postgres")
-    systemProperty("spring.datasource.password", "password")
+    systemProperty("SPRING_DATASOURCE_URL", "jdbc:postgresql://localhost:5432/lms")
+    systemProperty("SPRING_DATASOURCE_USERNAME", "postgres")
+    systemProperty("SPRING_DATASOURCE_PASSWORD", "password")
+}
+
+liquibase {
+    activities {
+        main {
+            changelogFile '$projectDir/src/resources/db/changelog/changelog-master.xml'
+            url 'jdbc:postgresql://localhost:5432/lms'
+            username 'postgres'
+            password 'password'
+        }
+    }
 }
 
 tasks.register("testPrint") {
