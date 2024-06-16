@@ -36,7 +36,7 @@ jobs:
       uses: spring-io/spring-gradle-build-action@v2
 
     - name: Build with Gradle Wrapper
-      run: cd server/lms && ./gradlew testPrint && ./gradlew build
+      run: cd server/lms && ./gradlew build
 
     - name: List build directory
       run: ls -l server/lms/build/libs
@@ -49,7 +49,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: rm -rf /home/dev/srv/spring/assignment-view-0.0.1-SNAPSHOT.jar
+        script: sudo rm -rf /home/dev/srv/spring/assignment-view-0.0.1-SNAPSHOT.jar
 
     - name: Copy JAR File via SSH
       uses: appleboy/scp-action@master
