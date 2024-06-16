@@ -63,7 +63,3 @@ liquibase {
         }
     }
 }
-
-bootRepackage {
-    executable = true
-}
