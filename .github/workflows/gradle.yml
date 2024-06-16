@@ -38,7 +38,7 @@ jobs:
       shell: bash
       run: |
         mkdir -p ~/.gradle/
-        echo "::set-env name=GRADLE_USER_HOME::$HOME/.gradle"
+        echo "GRADLE_USER_HOME=${HOME}/.gradle" >> $GITHUB_ENV
         echo ${GRADLE_PROPERTIES} > ~/.gradle/gradle.properties
 
     - name: Spring Gradle Build Action
