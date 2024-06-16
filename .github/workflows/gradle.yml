@@ -36,10 +36,20 @@ jobs:
       uses: spring-io/spring-gradle-build-action@v2
 
     - name: Build with Gradle Wrapper
-      run: cd server/lms && ./gradlew testPrint && ./gradlew build --info --stacktrace
+      run: cd server/lms && ./gradlew testPrint && ./gradlew build
 
     - name: List build directory
       run: ls -l server/lms/build/libs
+
+    - name: remove existing JAR
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: rm /home/dev/srv/spring/assignment-view-0.0.1-SNAPSHOT.jar
 
     - name: Copy JAR File via SSH
       uses: appleboy/scp-action@master
@@ -50,7 +60,6 @@ jobs:
         port: ${{ secrets.PORT }}
         source: "server/lms/build/libs/assignment-view-0.0.1-SNAPSHOT.jar"
         target: "/home/dev/srv/spring/assignment-view-0.0.1-SNAPSHOT.jar"
-        rm: true
 
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
