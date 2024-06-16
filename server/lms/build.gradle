@@ -64,9 +64,6 @@ liquibase {
     }
 }
 
-tasks.register("testPrint") {
-    doLast {
-        println("This is a test print on build")
-        println("URL: " + System.getenv("SPRING_DATASOURCE_URL"))
-    }
+bootRepackage {
+    executable = true
 }
