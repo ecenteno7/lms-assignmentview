@@ -32,6 +32,15 @@ jobs:
     - name: Make gradlew executable
       run: cd server/lms && chmod +x gradlew
 
+    - name: Restore gradle.properties
+      env:
+        GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+      shell: bash
+      run: |
+        mkdir -p ~/.gradle/
+        echo "::set-env name=GRADLE_USER_HOME::$HOME/.gradle"
+        echo ${GRADLE_PROPERTIES} > ~/.gradle/gradle.properties
+
     - name: Spring Gradle Build Action
       uses: spring-io/spring-gradle-build-action@v2
 
