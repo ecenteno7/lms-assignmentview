@@ -36,7 +36,7 @@ jobs:
       uses: spring-io/spring-gradle-build-action@v2
 
     - name: Build with Gradle Wrapper
-      run: cd server/lms && ./gradlew build --info --stacktrace
+      run: cd server/lms && ./gradlew build -DSPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
 
     - name: List build directory
       run: ls -l server/lms/build/libs
