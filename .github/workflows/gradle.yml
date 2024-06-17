@@ -38,9 +38,15 @@ jobs:
     - name: Restore gradle.properties
       env:
         GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+        URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+        USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+        PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
       shell: bash
       run: |
-        echo ${GRADLE_PROPERTIES} > server/lms/gradle.properties
+        echo spring_datasource_url=${URL} > server/lms/gradle.properties
+        echo spring_datasource_username=${USERNAME} >> server/lms/gradle.properties
+        echo spring_datasource_password=${PASSWORD} >> server/lms/gradle.properties
+        cat server/lms/gradle.properties
 
     - name: Build with Gradle Wrapper
       run: cd server/lms && ./gradlew build
