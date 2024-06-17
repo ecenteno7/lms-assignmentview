@@ -2,9 +2,9 @@ spring:
   application:
     name: lms
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${spring_datasource_url}
+    username: ${spring_datasource_username}
+    password: ${spring_datasource_password}
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml

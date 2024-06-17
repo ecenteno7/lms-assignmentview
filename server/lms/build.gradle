@@ -46,18 +46,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-bootRun {
-    // database credentials
-    systemProperty("SPRING_DATASOURCE_URL", spring_datasource_url)
-    // systemProperty("SPRING_DATASOURCE_USERNAME", spring_datasource_username)
-    systemProperty("SPRING_DATASOURCE_PASSWORD", spring_datasource_password)
-}
-
-build {
-    // database credentials
-    systemProperty("SPRING_DATASOURCE_URL", spring_datasource_url)
-    systemProperty("SPRING_DATASOURCE_USERNAME", spring_datasource_username)
-    systemProperty("SPRING_DATASOURCE_PASSWORD", spring_datasource_password)
+processResources {
+    filesMatching("**/application.yml") {
+        expand( project.properties )
+    }
 }
 
 liquibase {
