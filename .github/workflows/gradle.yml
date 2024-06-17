@@ -44,7 +44,7 @@ jobs:
         echo ${GRADLE_PROPERTIES} > gradle.properties
 
     - name: Build with Gradle Wrapper
-      run: cd server/lms && ./gradlew build -DSPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}
+      run: cd server/lms && ./gradlew build
 
     - name: List build directory
       run: ls -l server/lms/build/libs
