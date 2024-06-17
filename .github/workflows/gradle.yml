@@ -40,8 +40,7 @@ jobs:
         GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
       shell: bash
       run: |
-        cd server/lms
-        echo ${GRADLE_PROPERTIES} > gradle.properties
+        echo ${GRADLE_PROPERTIES} > server/lms/gradle.properties
 
     - name: Build with Gradle Wrapper
       run: cd server/lms && ./gradlew build
