@@ -9,6 +9,6 @@ public class HelloWorldController {
 
     @GetMapping("/hello-world")
     public HelloDto test() {
-        return new HelloDto("Hello world!");
+        return new HelloDto("Hello world with CI/CD!");
     }
 }
