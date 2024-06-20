@@ -3,8 +3,6 @@ name: Java CI with Gradle
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 env:
   SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
