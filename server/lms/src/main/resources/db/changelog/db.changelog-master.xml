@@ -6,7 +6,11 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="1" author="hwittenbrook3">
-        <sqlFile path="db/changelog/scripts/create-discussion-board-table.sql"/>
+        <sqlFile path="db/changelog/scripts/create-discussion-post-table.sql"/>
+    </changeSet>
+
+    <changeSet id="2" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/create-discussion-response-table.sql"/>
     </changeSet>
 
 </databaseChangeLog>
