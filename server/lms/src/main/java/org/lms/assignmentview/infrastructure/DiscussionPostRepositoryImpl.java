@@ -2,9 +2,9 @@ package org.lms.assignmentview.infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.lms.assignmentview.domain.DiscussionPostRepository;
 import org.lms.assignmentview.domain.discussion.DiscussionPost;
 import org.lms.assignmentview.domain.discussion.DiscussionPostId;
+import org.lms.assignmentview.domain.discussion.DiscussionPostRepository;
 import org.lms.assignmentview.infrastructure.jpa.entity.DiscussionPostEntity;
 import org.lms.assignmentview.infrastructure.jpa.repository.JpaDiscussionPostRepository;
 import org.springframework.stereotype.Repository;

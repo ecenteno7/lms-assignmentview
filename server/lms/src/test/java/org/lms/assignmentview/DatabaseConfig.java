@@ -1,6 +1,6 @@
 package org.lms.assignmentview;
 
-import org.lms.assignmentview.domain.DiscussionPostRepository;
+import org.lms.assignmentview.domain.discussion.DiscussionPostRepository;
 import org.lms.assignmentview.infrastructure.DiscussionPostRepositoryImpl;
 import org.lms.assignmentview.infrastructure.jpa.repository.JpaDiscussionPostRepository;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
