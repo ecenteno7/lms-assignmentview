@@ -13,4 +13,8 @@
         <sqlFile path="db/changelog/scripts/create-discussion-response-table.sql"/>
     </changeSet>
 
+    <changeSet id="3" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/create-user-and-class-table.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

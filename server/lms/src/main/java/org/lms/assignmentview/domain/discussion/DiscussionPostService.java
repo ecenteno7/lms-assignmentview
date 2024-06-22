@@ -2,7 +2,6 @@ package org.lms.assignmentview.domain.discussion;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.lms.assignmentview.domain.DiscussionPostRepository;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
 import org.springframework.stereotype.Service;
 

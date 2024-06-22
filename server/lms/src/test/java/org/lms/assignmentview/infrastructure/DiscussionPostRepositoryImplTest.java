@@ -2,7 +2,7 @@ package org.lms.assignmentview.infrastructure;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.lms.assignmentview.DatabaseConfig;
-import org.lms.assignmentview.domain.DiscussionPostRepository;
+import org.lms.assignmentview.domain.discussion.DiscussionPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
