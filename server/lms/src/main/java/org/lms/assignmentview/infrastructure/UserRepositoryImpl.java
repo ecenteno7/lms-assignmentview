@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public @NonNull Optional<UserDetails> findByUser(@NonNull User user) {
-        return jpaDiscussionUserRepository.findByIdAndClassId(user.userId(), user.classId())
+        return jpaDiscussionUserRepository.findByIdAndClassId(user.userId().id(), user.classId().id())
                 .map(DiscussionUserEntity::toDomain);
     }
 
