@@ -8,5 +8,8 @@ export const login = (username, password) => {
   }).then((res) => {
     console.log(res.body.user)
     return res
+  }).catch((err) => {
+    console.log(err)
+    return err
   })
 }

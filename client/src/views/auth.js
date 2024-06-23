@@ -36,7 +36,7 @@ export const Login = () => {
           onChange={(e) => setUser(e.target.value)}
           value={user}
           required
-          autocomplete="off"
+          autoComplete="off"
         />
         <input
           type="password"
@@ -46,7 +46,7 @@ export const Login = () => {
           onChange={(e) => setPwd(e.target.value)}
           value={pwd}
           required
-          autocomplete="off"
+          autoComplete="off"
         />
         <button
           onClick={handleSubmit}
