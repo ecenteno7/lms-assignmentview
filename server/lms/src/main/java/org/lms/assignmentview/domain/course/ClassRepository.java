@@ -16,4 +16,7 @@ public interface ClassRepository {
     @NonNull
     Course save(@NonNull Course course);
 
+    @NonNull
+    List<Course> saveAll(@NonNull List<Course> courses);
+
 }

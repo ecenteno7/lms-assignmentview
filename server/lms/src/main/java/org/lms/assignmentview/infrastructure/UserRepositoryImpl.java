@@ -2,6 +2,7 @@ package org.lms.assignmentview.infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserRepository;
@@ -27,8 +28,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public @NonNull List<UserDetails> findAllByCourseId(@NonNull CourseId courseId) {
+        return jpaDiscussionUserRepository.findAllByClassId(courseId.id()).stream()
+                .map(DiscussionUserEntity::toDomain)
+                .toList();
+    }
+
+    @Override
     public @NonNull Optional<UserDetails> findByUser(@NonNull User user) {
-        return jpaDiscussionUserRepository.findByIdAndClassId(user.userId(), user.classId())
+        return jpaDiscussionUserRepository.findByIdAndClassId(user.userId().id(), user.classId().id())
                 .map(DiscussionUserEntity::toDomain);
     }
 
@@ -36,5 +44,15 @@ public class UserRepositoryImpl implements UserRepository {
     public @NonNull UserDetails save(@NonNull UserDetails userDetails) {
         final DiscussionUserEntity userEntity = DiscussionUserEntity.from(userDetails);
         return jpaDiscussionUserRepository.save(userEntity).toDomain();
+    }
+
+    @Override
+    public @NonNull List<UserDetails> saveAll(@NonNull List<UserDetails> userDetailsList) {
+        final List<DiscussionUserEntity> userEntities = userDetailsList.stream()
+                .map(DiscussionUserEntity::from)
+                .toList();
+        return jpaDiscussionUserRepository.saveAll(userEntities).stream()
+                .map(DiscussionUserEntity::toDomain)
+                .toList();
     }
 }

@@ -17,4 +17,20 @@
         <sqlFile path="db/changelog/scripts/create-user-and-class-table.sql"/>
     </changeSet>
 
+    <changeSet id="4" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/rename-user-and-class-id-columns.sql"/>
+    </changeSet>
+
+    <changeSet id="5" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/add-unique-constraint-for-class-table.sql"/>
+    </changeSet>
+
+    <changeSet id="6" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/add-password-column-to-user-table.sql"/>
+    </changeSet>
+
+    <changeSet id="7" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/add-unique-constraint-for-username.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

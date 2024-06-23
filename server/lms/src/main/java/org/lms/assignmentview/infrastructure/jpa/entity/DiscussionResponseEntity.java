@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.discussion.DiscussionResponse;
 import org.lms.assignmentview.domain.discussion.DiscussionResponseId;
 import org.lms.assignmentview.domain.user.User;
+import org.lms.assignmentview.domain.user.UserId;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -60,8 +62,8 @@ public class DiscussionResponseEntity {
     public static @NonNull DiscussionResponseEntity from(@NonNull final DiscussionResponse discussionResponse) {
         return DiscussionResponseEntity.builder()
                 .id(UUID.fromString(discussionResponse.getId().id()))
-                .authorId(discussionResponse.getAuthor().userId())
-                .classId(discussionResponse.getAuthor().classId())
+                .authorId(discussionResponse.getAuthor().userId().id())
+                .classId(discussionResponse.getAuthor().classId().id())
                 .createdOn(discussionResponse.getCreatedOn())
                 .updatedOn(discussionResponse.getUpdatedOn().orElse(null))
                 .content(discussionResponse.getContent())
@@ -72,7 +74,7 @@ public class DiscussionResponseEntity {
     public @NonNull DiscussionResponse toDomain() {
         return DiscussionResponse.builder()
                 .id(new DiscussionResponseId(id.toString()))
-                .author(new User(authorId, classId))
+                .author(new User(new UserId(authorId), new CourseId(classId)))
                 .createdOn(createdOn)
                 .updatedOn(updatedOn)
                 .content(content)

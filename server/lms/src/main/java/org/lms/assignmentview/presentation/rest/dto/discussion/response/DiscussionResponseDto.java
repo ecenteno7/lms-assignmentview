@@ -1,4 +1,4 @@
-package org.lms.assignmentview.presentation.rest.dto;
+package org.lms.assignmentview.presentation.rest.dto.discussion.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -34,8 +34,8 @@ public record DiscussionResponseDto(
     public static DiscussionResponseDto from(@NonNull final DiscussionResponse discussionResponse) {
         return DiscussionResponseDto.builder()
                 .discussionResponseId(discussionResponse.getId().id())
-                .authorId(discussionResponse.getAuthor().userId())
-                .classId(discussionResponse.getAuthor().classId())
+                .authorId(discussionResponse.getAuthor().userId().id())
+                .classId(discussionResponse.getAuthor().classId().id())
                 .createdOn(discussionResponse.getCreatedOn())
                 .updatedOn(discussionResponse.getUpdatedOn().orElse(null))
                 .content(discussionResponse.getContent())

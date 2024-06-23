@@ -36,4 +36,14 @@ public class ClassRepositoryImpl implements ClassRepository {
         final ClassEntity classEntity = ClassEntity.from(course);
         return jpaClassRepository.save(classEntity).toDomain();
     }
+
+    @Override
+    public @NonNull List<Course> saveAll(@NonNull List<Course> courses) {
+        final List<ClassEntity> classEntities = courses.stream()
+                .map(ClassEntity::from)
+                .toList();
+        return jpaClassRepository.saveAll(classEntities).stream()
+                .map(ClassEntity::toDomain)
+                .toList();
+    }
 }
