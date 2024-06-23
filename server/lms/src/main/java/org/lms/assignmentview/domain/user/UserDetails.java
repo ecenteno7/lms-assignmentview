@@ -34,4 +34,8 @@ public class UserDetails {
                 .build();
     }
 
+    public boolean isStaff() {
+        return role.isStaff();
+    }
+
 }
