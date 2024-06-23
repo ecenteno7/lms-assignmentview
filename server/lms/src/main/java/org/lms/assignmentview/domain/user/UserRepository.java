@@ -11,11 +11,15 @@ public interface UserRepository {
     @NonNull
     List<UserDetails> findAll();
 
-    @NonNull List<UserDetails> findAllByCourseId(@NonNull final CourseId courseId);
+    @NonNull
+    List<UserDetails> findAllByCourseId(@NonNull final CourseId courseId);
 
     @NonNull
     Optional<UserDetails> findByUser(@NonNull final User user);
 
     @NonNull
     UserDetails save(@NonNull final UserDetails userDetails);
+
+    @NonNull
+    List<UserDetails> saveAll(@NonNull final List<UserDetails> userDetailsList);
 }

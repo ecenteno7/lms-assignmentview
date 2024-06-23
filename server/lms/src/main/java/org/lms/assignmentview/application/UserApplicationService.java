@@ -20,8 +20,8 @@ public class UserApplicationService {
     private final UserService userService;
 
     @Transactional
-    public @NonNull UserDetails createUser(@NonNull final CreateUserCommand createUserCommand) {
-        return userService.createUser(createUserCommand);
+    public @NonNull List<UserDetails> createUser(@NonNull final List<CreateUserCommand> createUserCommands) {
+        return userService.createUsers(createUserCommands);
     }
 
     @Transactional(readOnly = true)

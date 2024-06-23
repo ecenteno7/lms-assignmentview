@@ -14,9 +14,11 @@ public class CourseService {
     @NonNull
     private final ClassRepository classRepository;
 
-    public @NonNull Course createCourse(@NonNull final CreateCourseCommand createCourseCommand) {
-        final Course course = Course.from(createCourseCommand);
-        return classRepository.save(course);
+    public @NonNull List<Course> createCourses(@NonNull final List<CreateCourseCommand> createCourseCommands) {
+        final List<Course> courses = createCourseCommands.stream()
+                .map(Course::from)
+                .toList();
+        return classRepository.saveAll(courses);
     }
 
     public @NonNull Course getCourseById(@NonNull final CourseId courseId) {

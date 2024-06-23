@@ -15,9 +15,11 @@ public class UserService {
     @NonNull
     private final UserRepository userRepository;
 
-    public @NonNull UserDetails createUser(@NonNull CreateUserCommand createUserCommand) {
-        final UserDetails userDetails = UserDetails.from(createUserCommand);
-        return userRepository.save(userDetails);
+    public @NonNull List<UserDetails> createUsers(@NonNull List<CreateUserCommand> createUserCommands) {
+        final List<UserDetails> userDetails = createUserCommands.stream()
+                .map(UserDetails::from)
+                .toList();
+        return userRepository.saveAll(userDetails);
     }
 
     public @NonNull List<UserDetails> getUsersForCourse(@NonNull final CourseId courseId) {
