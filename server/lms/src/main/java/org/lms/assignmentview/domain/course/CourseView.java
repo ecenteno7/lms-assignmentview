@@ -13,7 +13,8 @@ public record CourseView(
         long numberOfStaff
 ) {
 
-    public static @NonNull CourseView from(@NonNull final Course course, @NonNull final List<UserDetails> courseUsers) {
+    public static <T extends UserDetails> @NonNull CourseView from(@NonNull final Course course,
+                                                                   @NonNull final List<T> courseUsers) {
         final long numberOfStaff = courseUsers.stream()
                 .filter(UserDetails::isStaff)
                 .count();
