@@ -2,6 +2,7 @@ package org.lms.assignmentview.infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserRepository;
@@ -22,6 +23,13 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public @NonNull List<UserDetails> findAll() {
         return jpaDiscussionUserRepository.findAll().stream()
+                .map(DiscussionUserEntity::toDomain)
+                .toList();
+    }
+
+    @Override
+    public @NonNull List<UserDetails> findAllByCourseId(@NonNull CourseId courseId) {
+        return jpaDiscussionUserRepository.findAllByClassId(courseId.id()).stream()
                 .map(DiscussionUserEntity::toDomain)
                 .toList();
     }

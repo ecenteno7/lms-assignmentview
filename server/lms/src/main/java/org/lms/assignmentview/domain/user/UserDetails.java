@@ -16,6 +16,9 @@ public class UserDetails {
     private final String username;
 
     @NonNull
+    private final String password;
+
+    @NonNull
     private final String firstName;
 
     @NonNull
@@ -28,10 +31,15 @@ public class UserDetails {
         return UserDetails.builder()
                 .user(User.generateUser(createUserCommand.classId()))
                 .username(createUserCommand.username())
+                .password(createUserCommand.password())
                 .firstName(createUserCommand.firstName())
                 .lastName(createUserCommand.lastName())
                 .role(createUserCommand.role())
                 .build();
+    }
+
+    public boolean isStaff() {
+        return role.isStaff();
     }
 
 }
