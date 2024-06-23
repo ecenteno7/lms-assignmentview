@@ -10,6 +10,8 @@ public interface JpaDiscussionUserRepository extends JpaRepository<DiscussionUse
 
     Optional<DiscussionUserEntity> findByIdAndClassId(String id, String classId);
 
+    Optional<DiscussionUserEntity> findByUsernameAndPassword(String username, String password);
+
     List<DiscussionUserEntity> findAllByClassId(String classId);
 
 }

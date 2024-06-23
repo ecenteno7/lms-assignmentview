@@ -7,7 +7,7 @@ import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.course.CourseService;
 import org.lms.assignmentview.domain.course.CourseView;
 import org.lms.assignmentview.domain.course.commands.CreateCourseCommand;
-import org.lms.assignmentview.domain.user.UserDetails;
+import org.lms.assignmentview.domain.user.AdminUserDetails;
 import org.lms.assignmentview.domain.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +36,7 @@ public class CourseApplicationService {
         final List<Course> courses = courseService.getAllCourses();
         return courses.stream()
                 .map(course -> {
-                    final List<UserDetails> courseUsers = userService.getUsersForCourse(course.getCourseId());
+                    final List<AdminUserDetails> courseUsers = userService.getUsersForCourse(course.getCourseId());
                     return CourseView.from(course, courseUsers);
                 })
                 .toList();
@@ -45,7 +45,7 @@ public class CourseApplicationService {
     @Transactional(readOnly = true)
     public @NonNull CourseView getCourseById(@NonNull final CourseId courseId) {
         final Course course = courseService.getCourseById(courseId);
-        final List<UserDetails> users = userService.getUsersForCourse(course.getCourseId());
+        final List<AdminUserDetails> users = userService.getUsersForCourse(course.getCourseId());
         return CourseView.from(course, users);
     }
 

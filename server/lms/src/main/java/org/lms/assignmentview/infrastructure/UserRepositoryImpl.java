@@ -3,9 +3,11 @@ package org.lms.assignmentview.infrastructure;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.lms.assignmentview.domain.course.CourseId;
+import org.lms.assignmentview.domain.user.AdminUserDetails;
 import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserRepository;
+import org.lms.assignmentview.domain.user.commands.UserLoginCommand;
 import org.lms.assignmentview.infrastructure.jpa.entity.DiscussionUserEntity;
 import org.lms.assignmentview.infrastructure.jpa.repository.JpaDiscussionUserRepository;
 import org.springframework.stereotype.Repository;
@@ -21,14 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     private final JpaDiscussionUserRepository jpaDiscussionUserRepository;
 
     @Override
-    public @NonNull List<UserDetails> findAll() {
-        return jpaDiscussionUserRepository.findAll().stream()
-                .map(DiscussionUserEntity::toDomain)
-                .toList();
-    }
-
-    @Override
-    public @NonNull List<UserDetails> findAllByCourseId(@NonNull CourseId courseId) {
+    public @NonNull List<AdminUserDetails> findAllByCourseId(@NonNull CourseId courseId) {
         return jpaDiscussionUserRepository.findAllByClassId(courseId.id()).stream()
                 .map(DiscussionUserEntity::toDomain)
                 .toList();
@@ -41,13 +36,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public @NonNull UserDetails save(@NonNull UserDetails userDetails) {
-        final DiscussionUserEntity userEntity = DiscussionUserEntity.from(userDetails);
-        return jpaDiscussionUserRepository.save(userEntity).toDomain();
+    public @NonNull Optional<UserDetails> login(@NonNull UserLoginCommand command) {
+        return jpaDiscussionUserRepository.findByUsernameAndPassword(command.username(), command.password())
+                .map(DiscussionUserEntity::toDomain);
     }
 
     @Override
-    public @NonNull List<UserDetails> saveAll(@NonNull List<UserDetails> userDetailsList) {
+    public @NonNull List<AdminUserDetails> saveAll(@NonNull List<AdminUserDetails> userDetailsList) {
         final List<DiscussionUserEntity> userEntities = userDetailsList.stream()
                 .map(DiscussionUserEntity::from)
                 .toList();

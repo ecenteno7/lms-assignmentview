@@ -1,10 +1,15 @@
 spring:
   application:
     name: lms
+
   datasource:
     url: ${spring_datasource_url}
     username: ${spring_datasource_username}
     password: ${spring_datasource_password}
     driver-class-name: org.postgresql.Driver
+
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+
+  jackson:
+    default-property-inclusion: non_null

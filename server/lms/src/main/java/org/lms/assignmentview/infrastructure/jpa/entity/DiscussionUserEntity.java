@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import org.lms.assignmentview.domain.course.CourseId;
+import org.lms.assignmentview.domain.user.AdminUserDetails;
 import org.lms.assignmentview.domain.user.Role;
 import org.lms.assignmentview.domain.user.User;
-import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserId;
 
 @Getter
@@ -40,7 +40,7 @@ public class DiscussionUserEntity {
     @Column(name = "role")
     private String role;
 
-    public static @NonNull DiscussionUserEntity from(@NonNull final UserDetails userDetails) {
+    public static @NonNull DiscussionUserEntity from(@NonNull final AdminUserDetails userDetails) {
         return DiscussionUserEntity.builder()
                 .id(userDetails.getUser().userId().id())
                 .username(userDetails.getUsername())
@@ -52,8 +52,8 @@ public class DiscussionUserEntity {
                 .build();
     }
 
-    public @NonNull UserDetails toDomain() {
-        return UserDetails.builder()
+    public @NonNull AdminUserDetails toDomain() {
+        return AdminUserDetails.builder()
                 .user(new User(new UserId(id), new CourseId(classId)))
                 .username(username)
                 .password(password)
