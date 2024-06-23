@@ -25,8 +25,10 @@ public class CourseApplicationService {
     private final UserService userService;
 
     @Transactional
-    public @NonNull CourseView createCourse(@NonNull final CreateCourseCommand createCourseCommand) {
-        return new CourseView(courseService.createCourse(createCourseCommand), 0, 0);
+    public @NonNull List<CourseView> createCourse(@NonNull final List<CreateCourseCommand> createCourseCommand) {
+        return courseService.createCourses(createCourseCommand).stream()
+                .map(course -> new CourseView(course, 0, 0))
+                .toList();
     }
 
     @Transactional(readOnly = true)

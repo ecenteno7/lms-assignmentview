@@ -8,6 +8,7 @@ import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserId;
 import org.lms.assignmentview.domain.user.commands.CreateUserCommand;
+import org.lms.assignmentview.presentation.rest.dto.user.UserDto;
 import org.lms.assignmentview.presentation.rest.dto.user.UserRequestDto;
 import org.lms.assignmentview.presentation.rest.dto.user.UserResponseDto;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,11 @@ public class UserController {
     @PostMapping("/api/admin/courses/{course-id}/users")
     public @NonNull UserResponseDto createUser(@NonNull @PathVariable("course-id") final String courseId,
                                                @NonNull @RequestBody UserRequestDto userRequestDto) {
-        if (userRequestDto.users().size() != 1) {
-            throw new IllegalStateException("Application only supports adding a single user at a time");
-        }
-        final CreateUserCommand createUserCommand = userRequestDto.users().get(0).toCreateUserCommand();
-        final UserDetails userDetails = userApplicationService.createUser(createUserCommand);
-        return UserResponseDto.from(List.of(userDetails));
+        final List<CreateUserCommand> createUserCommands = userRequestDto.users().stream()
+                .map(UserDto::toCreateUserCommand)
+                .toList();
+        final List<UserDetails> userDetails = userApplicationService.createUser(createUserCommands);
+        return UserResponseDto.from(userDetails);
     }
 
     @GetMapping("/api/admin/courses/{course-id}/users")

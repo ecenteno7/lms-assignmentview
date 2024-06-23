@@ -6,6 +6,7 @@ import org.lms.assignmentview.application.CourseApplicationService;
 import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.course.CourseView;
 import org.lms.assignmentview.domain.course.commands.CreateCourseCommand;
+import org.lms.assignmentview.presentation.rest.dto.course.CourseDto;
 import org.lms.assignmentview.presentation.rest.dto.course.CourseRequestDto;
 import org.lms.assignmentview.presentation.rest.dto.course.CourseResponseDto;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,11 @@ public class CourseController {
 
     @PostMapping("/api/admin/courses")
     public @NonNull CourseResponseDto createCourse(@RequestBody final CourseRequestDto courseRequestDto) {
-        if (courseRequestDto.courses().size() != 1) {
-            throw new IllegalStateException("Application only supports adding a single course at a time.");
-        }
-        final CreateCourseCommand createCourseCommand = courseRequestDto.courses().get(0).toCreateCourseCommand();
-        final CourseView course = courseApplicationService.createCourse(createCourseCommand);
-        return CourseResponseDto.from(List.of(course));
+        final List<CreateCourseCommand> createCourseCommands = courseRequestDto.courses().stream()
+                .map(CourseDto::toCreateCourseCommand)
+                .toList();
+        final List<CourseView> courseViews = courseApplicationService.createCourse(createCourseCommands);
+        return CourseResponseDto.from(courseViews);
     }
 
     @GetMapping("/api/admin/courses")

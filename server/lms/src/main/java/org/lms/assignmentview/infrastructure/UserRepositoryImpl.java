@@ -45,4 +45,14 @@ public class UserRepositoryImpl implements UserRepository {
         final DiscussionUserEntity userEntity = DiscussionUserEntity.from(userDetails);
         return jpaDiscussionUserRepository.save(userEntity).toDomain();
     }
+
+    @Override
+    public @NonNull List<UserDetails> saveAll(@NonNull List<UserDetails> userDetailsList) {
+        final List<DiscussionUserEntity> userEntities = userDetailsList.stream()
+                .map(DiscussionUserEntity::from)
+                .toList();
+        return jpaDiscussionUserRepository.saveAll(userEntities).stream()
+                .map(DiscussionUserEntity::toDomain)
+                .toList();
+    }
 }
