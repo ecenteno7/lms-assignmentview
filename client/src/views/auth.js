@@ -1,18 +1,28 @@
-import { useState, useEffect } from "react";
-
-
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/authContext";
+import { login } from "../services/api"
 export const Login = () => {
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const { setAuth } = useContext(AuthContext);
+
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
 
   const handleSubmit = () => {
-    console.log(user, pwd);
+    login(user, pwd).then((res) => {
+      if (res.status == 200) {
+        setAuth(res.user)
+        setSuccess(res.status)
+      } else {
+        setErrMsg(`ERR: ${res.status} - Error logging in.`)
+        console.log("err logging in")
+      }
+    });
   }
 
   return (

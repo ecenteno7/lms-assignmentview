@@ -1,6 +1,6 @@
 import './App.css'
-import { CourseCockpit } from './components/views/courseCockpit';
-import { Login } from './components/views/auth';
+import { CourseCockpit } from './views/courseCockpit';
+import { Login } from './views/auth';
 import { Header } from "./components/layout/header"
 
 function App() {
@@ -13,3 +13,6 @@ function App() {
 }
 
 export default App;
+
+
+

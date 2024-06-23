@@ -1,7 +1,7 @@
 
-import { Header } from '../layout/header'
-import { Sidebar } from '../layout/sidebar'
-import { Body } from '../layout/body';
+import { Header } from '../components/layout/header'
+import { Sidebar } from '../components/layout/sidebar'
+import { Body } from '../components/layout/body';
 
 export const CourseCockpit = () => {
   return (
