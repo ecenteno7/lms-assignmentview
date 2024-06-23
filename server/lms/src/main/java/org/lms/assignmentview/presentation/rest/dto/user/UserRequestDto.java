@@ -5,6 +5,6 @@ import lombok.NonNull;
 import java.util.List;
 
 public record UserRequestDto(
-        @NonNull List<UserDto> users
+        @NonNull List<AdminUserDto> users
 ) {
 }
