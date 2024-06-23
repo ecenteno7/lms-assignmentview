@@ -24,4 +24,8 @@ public class UserService {
         return userRepository.findAllByCourseId(courseId);
     }
 
+    public @NonNull UserDetails findByUser(@NonNull final User user) {
+        return userRepository.findByUser(user).orElseThrow();
+    }
+
 }
