@@ -1,4 +1,4 @@
-package org.lms.assignmentview.presentation.rest.dto;
+package org.lms.assignmentview.presentation.rest.dto.discussion.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
