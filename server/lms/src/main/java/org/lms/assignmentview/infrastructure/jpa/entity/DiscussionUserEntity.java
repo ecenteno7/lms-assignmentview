@@ -25,6 +25,9 @@ public class DiscussionUserEntity {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -41,6 +44,7 @@ public class DiscussionUserEntity {
         return DiscussionUserEntity.builder()
                 .id(userDetails.getUser().userId().id())
                 .username(userDetails.getUsername())
+                .password(userDetails.getPassword())
                 .firstName(userDetails.getFirstName())
                 .lastName(userDetails.getLastName())
                 .classId(userDetails.getUser().classId().id())
@@ -52,6 +56,7 @@ public class DiscussionUserEntity {
         return UserDetails.builder()
                 .user(new User(new UserId(id), new CourseId(classId)))
                 .username(username)
+                .password(password)
                 .firstName(firstName)
                 .lastName(lastName)
                 .role(Role.valueOf(role))

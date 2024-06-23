@@ -19,6 +19,8 @@ public record UserDto(
 
         @NonNull String username,
 
+        @NonNull String password,
+
         @NonNull String firstName,
 
         @NonNull String lastName,
@@ -31,6 +33,7 @@ public record UserDto(
                 .userId(userDetails.getUser().userId().id())
                 .classId(userDetails.getUser().classId().id())
                 .username(userDetails.getUsername())
+                .password(userDetails.getPassword())
                 .firstName(userDetails.getFirstName())
                 .lastName(userDetails.getLastName())
                 .role(userDetails.getRole().name())
@@ -40,6 +43,7 @@ public record UserDto(
     public @NonNull CreateUserCommand toCreateUserCommand() {
         return CreateUserCommand.builder()
                 .username(username)
+                .password(password)
                 .firstName(firstName)
                 .lastName(lastName)
                 .classId(new CourseId(classId))
