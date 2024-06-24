@@ -24,3 +24,6 @@ yarn-error.log*
 db
 client/package-lock.json
 logfile
+client/.env
+client/.env.development
+client/.env.production

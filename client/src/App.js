@@ -1,18 +1,17 @@
 import './App.css'
-import { Header } from './components/layout/header'
-import { Sidebar } from './components/layout/sidebar'
-import { Body } from './components/layout/body';
+import { Landing } from './views/landing';
+import { Header } from './components/layout/header';
 
 function App() {
   return (
     <div className="App h-screen">
       <Header />
-      <div className="flex h-5/6 m-4">
-        <Sidebar />
-        <Body />
-      </div>
+      <Landing />
     </div >
   );
 }
 
 export default App;
+
+
+

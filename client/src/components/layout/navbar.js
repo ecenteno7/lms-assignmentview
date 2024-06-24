@@ -2,7 +2,7 @@ import { FaHome } from "react-icons/fa";
 
 export const Navbar = () => {
   return (
-    <div className="grid grid-cols-7 h-full rounded-xl p-2">
+    <div className="grid grid-cols-7 h-full rounded-xl p-2 cursor-pointer">
       <div className="flex col-span-1 bg-slate-600 text-white font-bold rounded-xl justify-center items-center">
         <FaHome className="text-2xl"/>
       </div>
