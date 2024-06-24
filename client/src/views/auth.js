@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/authContext";
-import { login } from "../services/api"
+import { userLogin } from "../services/api"
+
+
 export const Login = () => {
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
@@ -14,9 +16,10 @@ export const Login = () => {
   }, [user, pwd]);
 
   const handleSubmit = () => {
-    login(user, pwd).then((res) => {
+    userLogin(user, pwd).then((res) => {
       if (res.status == 200) {
-        setAuth(res.user)
+        console.log(res.data)
+        setAuth(res.data)
         setSuccess(res.status)
       } else {
         setErrMsg(`ERR: ${res.status} - Error logging in.`)
@@ -26,8 +29,8 @@ export const Login = () => {
   }
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      <div className="grid grid-rows-12 w-1/5 h-2/3 gap-y-4">
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="h-2/3 grid grid-rows-10 w-2/5 gap-y-4 flex justify-center items-center">
         <input
           type="text"
           id="username"
@@ -50,7 +53,7 @@ export const Login = () => {
         />
         <button
           onClick={handleSubmit}
-          className="bg-slate-800 text-white font-bold rounded-xl row-span-1"
+          className="bg-slate-800 text-white font-bold rounded-xl h-full row-span-1"
         >
           Login
         </button>
