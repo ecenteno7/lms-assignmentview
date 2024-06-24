@@ -29,7 +29,10 @@ export const Login = () => {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex flex-col items-center justify-center">
+      <div className="pb-10 w-2/5">
+        <p className="text-3xl font-bold text-slate-800 ">Login</p>
+      </div>
       <div className="h-2/3 grid grid-rows-10 w-2/5 gap-y-4 flex justify-center items-center">
         <input
           type="text"
