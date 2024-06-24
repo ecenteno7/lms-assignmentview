@@ -1,0 +1,20 @@
+{
+    "requestUri": "/api/admin/courses/{course-id}/users",
+    "requestTemplate": {
+      "users": [
+      ]
+    },
+    "templateVariables": [
+      {
+        "key": "users",
+        "value": {
+            "classID": "{{classID}}",
+            "username": "{{username}}",
+            "password": "{{password}}",
+            "firstName": "{{firstName}}",
+            "lastName": "{{lastName}}",
+            "role": "{{role}}"
+        }
+      }
+    ]
+  }

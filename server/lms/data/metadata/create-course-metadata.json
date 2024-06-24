@@ -1,0 +1,20 @@
+{
+  "requestUri": "/api/admin/courses",
+  "uriVariables": [
+
+  ],
+  "requestTemplate": {
+    "courses": [
+    ]
+  },
+  "templateVariables": [
+    {
+      "key": "courses",
+      "value": {
+        "coursePrefix": "{{coursePrefix}}",
+        "courseNumber": "{{courseNumber}}",
+        "courseName": "{{courseName}}"
+      }
+    }
+  ]
+}
