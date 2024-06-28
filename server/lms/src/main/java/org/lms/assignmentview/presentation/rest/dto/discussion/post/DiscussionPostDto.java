@@ -33,7 +33,7 @@ public record DiscussionPostDto(
 
         @NonNull String title,
 
-        @NonNull String content,
+        @Nullable String content,
 
         int voteCount,
 
@@ -42,7 +42,7 @@ public record DiscussionPostDto(
 
     public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPostView discussionPostView) {
         final DiscussionPost discussionPost = discussionPostView.discussionPost();
-        return DiscussionPostDto.builder()
+        DiscussionPostDtoBuilder discussionPostBuilder = DiscussionPostDto.builder()
                 .discussionPostId(discussionPost.getId().id())
                 .authorId(discussionPost.getAuthor().userId().id())
                 .firstName(discussionPostView.userDetails().getFirstName())
@@ -50,12 +50,15 @@ public record DiscussionPostDto(
                 .createdOn(discussionPost.getCreatedOn())
                 .updatedOn(discussionPost.getUpdatedOn().orElse(null))
                 .title(discussionPost.getTitle())
-                .content(discussionPost.getContent())
-                .voteCount(discussionPost.getVoteCount())
-                .responses(discussionPost.getResponses().stream()
-                        .map(DiscussionResponseDto::from)
-                        .toList())
-                .build();
+                .voteCount(discussionPost.getVoteCount());
+        if (discussionPostView.displayResponses()) {
+            discussionPostBuilder = discussionPostBuilder
+                    .content(discussionPost.getContent())
+                    .responses(discussionPost.getResponses().stream()
+                            .map(DiscussionResponseDto::from)
+                            .toList());
+        }
+        return discussionPostBuilder.build();
     }
 
     public @NonNull CreateDiscussionPostCommand toCreateDiscussionPostCommand(@NonNull final CourseId courseId) {

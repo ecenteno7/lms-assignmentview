@@ -5,6 +5,7 @@ import org.lms.assignmentview.domain.user.UserDetails;
 
 public record DiscussionPostView(
         @NonNull DiscussionPost discussionPost,
-        @NonNull UserDetails userDetails
+        @NonNull UserDetails userDetails,
+        boolean displayResponses
 ) {
 }
