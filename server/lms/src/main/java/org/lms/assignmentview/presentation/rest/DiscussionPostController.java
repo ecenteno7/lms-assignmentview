@@ -22,7 +22,7 @@ public class DiscussionPostController {
     @NonNull
     private final DiscussionPostApplicationService discussionPostApplicationService;
 
-    @PostMapping("/api/courses/{course-id}/discussion-post")
+    @PostMapping("/api/courses/{course-id}/discussion-posts")
     public @NonNull DiscussionPostResponseDto createDiscussionPost(
             @PathVariable("course-id") @NonNull final String courseIdStr,
             @RequestBody @NonNull final DiscussionPostRequestDto discussionPostRequestDto
