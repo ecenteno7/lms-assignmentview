@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
+import org.lms.assignmentview.domain.tag.Tag;
 import org.lms.assignmentview.domain.user.User;
 import org.springframework.lang.Nullable;
 
@@ -38,6 +39,10 @@ public class DiscussionPost {
     @NonNull
     @Builder.Default
     private final List<DiscussionResponse> responses = List.of();
+
+    @NonNull
+    @Builder.Default
+    private final List<Tag> tags = List.of();
 
     @NonNull
     public Optional<OffsetDateTime> getUpdatedOn() {

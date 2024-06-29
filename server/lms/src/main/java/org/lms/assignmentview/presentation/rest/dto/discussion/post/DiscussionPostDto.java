@@ -9,6 +9,7 @@ import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostComm
 import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserId;
 import org.lms.assignmentview.presentation.rest.dto.discussion.response.DiscussionResponseDto;
+import org.lms.assignmentview.presentation.rest.dto.tag.TagDto;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -37,7 +38,9 @@ public record DiscussionPostDto(
 
         int voteCount,
 
-        @Nullable List<DiscussionResponseDto> responses
+        @Nullable List<DiscussionResponseDto> responses,
+
+        @Nullable List<TagDto> tags
 ) {
 
     public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPostView discussionPostView) {
@@ -50,7 +53,10 @@ public record DiscussionPostDto(
                 .createdOn(discussionPost.getCreatedOn())
                 .updatedOn(discussionPost.getUpdatedOn().orElse(null))
                 .title(discussionPost.getTitle())
-                .voteCount(discussionPost.getVoteCount());
+                .voteCount(discussionPost.getVoteCount())
+                .tags(discussionPost.getTags().stream()
+                        .map(TagDto::from)
+                        .toList());
         if (discussionPostView.displayResponses()) {
             discussionPostBuilder = discussionPostBuilder
                     .content(discussionPost.getContent())
