@@ -14,4 +14,6 @@ public interface JpaDiscussionUserRepository extends JpaRepository<DiscussionUse
 
     List<DiscussionUserEntity> findAllByClassId(String classId);
 
+    List<DiscussionUserEntity> findAllByIdInAndClassId(List<String> ids, String classId);
+
 }

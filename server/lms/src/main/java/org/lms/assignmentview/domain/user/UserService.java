@@ -8,6 +8,8 @@ import org.lms.assignmentview.domain.user.commands.UserLoginCommand;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +33,10 @@ public class UserService {
         return userRepository.findByUser(user).orElseThrow();
     }
 
+    public @NonNull Map<User, UserDetails> findByUsers(@NonNull final Set<User> users) {
+        return userRepository.findByUsers(users);
+    }
+    
     public @NonNull UserDetails login(@NonNull final UserLoginCommand userLoginCommand) {
         return userRepository.login(userLoginCommand).orElseThrow();
     }
