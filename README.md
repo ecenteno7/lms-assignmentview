@@ -4,4 +4,4 @@
 
 ### Contributors:
 - Erik Centeno (ecenteno3@gatech.edu)
-- Harrison Wittenbrook(hwittenbrook@gatech.edu)
+- Harrison Wittenbrook(hwittenbrook3@gatech.edu)

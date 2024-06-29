@@ -33,4 +33,8 @@
         <sqlFile path="db/changelog/scripts/add-unique-constraint-for-username.sql"/>
     </changeSet>
 
+    <changeSet id="8" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/create-tags-table.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

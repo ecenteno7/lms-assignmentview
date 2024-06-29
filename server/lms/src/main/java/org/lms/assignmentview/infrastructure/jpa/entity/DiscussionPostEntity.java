@@ -48,6 +48,14 @@ public class DiscussionPostEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "discussionPost", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DiscussionResponseEntity> discussionResponses;
 
+    @JoinTable(
+            name = "post_tags",
+            joinColumns = @JoinColumn(name = "discussion_post_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    )
+    @ManyToMany
+    private List<TagEntity> tags;
+
     public static @NonNull DiscussionPostEntity from(@NonNull final DiscussionPost discussionPost) {
         return DiscussionPostEntity.builder()
                 .id(UUID.fromString(discussionPost.getId().id()))
@@ -60,6 +68,9 @@ public class DiscussionPostEntity {
                 .voteCount(discussionPost.getVoteCount())
                 .discussionResponses(discussionPost.getResponses().stream()
                         .map(DiscussionResponseEntity::from)
+                        .toList())
+                .tags(discussionPost.getTags().stream()
+                        .map(TagEntity::from)
                         .toList())
                 .build();
     }
@@ -75,6 +86,9 @@ public class DiscussionPostEntity {
                 .voteCount(voteCount)
                 .responses(discussionResponses.stream()
                         .map(DiscussionResponseEntity::toDomain)
+                        .toList())
+                .tags(tags.stream()
+                        .map(TagEntity::toDomain)
                         .toList())
                 .build();
     }
