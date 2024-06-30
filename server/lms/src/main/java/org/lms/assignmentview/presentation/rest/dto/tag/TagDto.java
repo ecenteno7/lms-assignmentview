@@ -3,13 +3,17 @@ package org.lms.assignmentview.presentation.rest.dto.tag;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.NonNull;
+import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.tag.Tag;
+import org.lms.assignmentview.domain.tag.command.CreateTagCommand;
 import org.springframework.lang.Nullable;
+
+import java.util.Objects;
 
 @Builder
 public record TagDto(
         @JsonProperty("tagID")
-        @NonNull String tagId,
+        @Nullable String tagId,
 
         @Nullable String name,
 
@@ -21,6 +25,17 @@ public record TagDto(
                 .tagId(tag.getId().id())
                 .name(tag.getName())
                 .color(tag.getColor())
+                .build();
+    }
+
+    public @NonNull CreateTagCommand toCommand(@NonNull final CourseId courseId) {
+        if (Objects.isNull(name) || Objects.isNull(color)) {
+            throw new IllegalArgumentException("Name and color are required to create a tag.");
+        }
+        return CreateTagCommand.builder()
+                .courseId(courseId)
+                .name(name)
+                .color(color)
                 .build();
     }
 
