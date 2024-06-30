@@ -1,10 +1,9 @@
 # sample runs: 
 # python populate-data.py --metadata-path metadata/create-course-metadata.json --data-path sources/create-course-test.csv --hostname http://localhost:8080
 
-import sys
 import argparse
-import json
 import csv
+import json
 import requests
 
 
@@ -23,11 +22,13 @@ def populate_data(hostname, metadata_filepath, data_file_path, course_id):
 
     send_request(request_url, request_body)
 
+
 def create_request_url(hostname, request_uri, course_id):
     if course_id is None and "{course-id}" in request_uri:
         raise Exception("Course id is required")
     populated_uri = request_uri.replace("{course-id}", course_id) if course_id is not None else request_uri
     return hostname + populated_uri
+
 
 def create_request_body(request_template, template_variables, data, course_id):
     for template_variable in template_variables:
@@ -40,13 +41,16 @@ def create_request_body(request_template, template_variables, data, course_id):
             if course_id is not None:
                 value_string = value_string.replace("{{classID}}", course_id)
                 value_string = value_string.replace("{{courseID}}", course_id)
+            print(value_string)
             structured_data.append(json.loads(value_string))
         request_template[template_variable["key"]] = structured_data
     return request_template
 
+
 def send_request(request_url, request_body):
     headers = {"Content-type": "application/json"}
     response = requests.post(request_url, json.dumps(request_body), headers=headers)
+    print(f"Request body: {request_body}")
     print(response)
     print(f"Response status code: {response.status_code}")
     print(f"Response content: {response.content}")
