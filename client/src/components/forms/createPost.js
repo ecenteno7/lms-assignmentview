@@ -62,21 +62,25 @@ export const CreatePost = () => {
 
   return (
     submitted ?
-      <div id="create-post" className="w-full">
+      <div id="create-post" className="w-full flex flex-col justify-center items-center">
+        <p className="text-slate-800 text-left w-full pt-4 pl-4 font-bold text-3xl">Create Discussion Post</p>
+        <p className="text-slate-800 text-left w-full pt-4 pl-4 font-bold text-xl">Title</p>
         <div className="p-4 w-full h-[15%]">
           <input type="text" id="title" onChange={e => setTitle(e.target.value)} class="h-full bg-slate-200 text-gray-900 outline-none text-sm rounded-lg block w-full p-2.5 " placeholder="Title" />
         </div>
+        <p className="text-slate-800 text-left w-full pl-4 font-bold text-xl">Content</p>
         <div className="p-4 w-full h-[65%]">
           <input type="text" id="content" onChange={e => setContent(e.target.value)} class="text-start justify-start items-start h-full bg-slate-200 text-gray-900 outline-none text-sm rounded-lg block w-full p-2.5 " placeholder="Content" />
         </div>
-        <div className="p-4 h-[10%]">
+        <p className="text-slate-800 text-left w-full pl-4 font-bold text-xl">Tag</p>
+        <div className="p-4 h-[10%] w-full">
           {tags && <select onChange={e => setTag([{ tagID: e.target.value }])} name="Tags" className="rounded-xl p-2 mb-1 w-full ">
             {tags}
           </select>
           }
         </div>
-        <div className="flex flex-col h-[10%] p-4">
-          <button onClick={handleSubmit} className="p-2 bg-slate-800 text-white font-bold rounded-xl h-full">Submit</button>
+        <div className="flex flex-row h-[10%] w-[25%] justify-center items-center pl-4 pb-4">
+          <button onClick={handleSubmit} className="p-2 bg-slate-800 text-white font-bold rounded-xl h-full w-full">Submit</button>
         </div>
       </div>
       :

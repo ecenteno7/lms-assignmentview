@@ -4,6 +4,7 @@ import { Chatter } from "./chatter"
 import { useState, useEffect, useContext } from "react"
 import { getDiscussionPostList } from "../../services/api"
 import { CourseFocusContext } from "../../context/courseFocusContext"
+import { IoCreate } from "react-icons/io5";
 
 export const Sidebar = () => {
   const [discussionPostList, setDiscussionPostList] = useState([])
@@ -49,11 +50,15 @@ export const Sidebar = () => {
         <Navbar />
       </div>
       <div className="bg-slate-400 w-full row-span-10 rounded-lg">
-        <div className="w-full p-1 flex flex-row">
+        <div className="w-full flex flex-row flex flex-row justify-center items-center h-[12%]">
           <Searchbar />
-          <button onClick={() => setDiscussionPostFocus("CREATE")} className="w-1/3 bg-slate-800 text-white font-bold rounded-xl p-1 mr-2 mt-2 mb-2">Create</button>
+          <div className="w-1/6 pt-4 pb-4 pr-4 pl-4 h-full">
+            <button onClick={() => setDiscussionPostFocus("CREATE")} className="bg-slate-800 text-white font-bold rounded-xl p-2.5 w-full h-full text-center flex flex-row justify-center items-center">
+              <IoCreate className="text-3xl text-center w-full h-full"/>
+            </button>
+          </div>
         </div>
-        <div className="overflow-auto h-5/6">
+        <div className="overflow-auto h-5/6 ml-2 mr-2">
           {discussionPostList}
         </div>
       </div>
