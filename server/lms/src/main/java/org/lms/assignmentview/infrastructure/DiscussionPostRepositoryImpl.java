@@ -27,9 +27,13 @@ public class DiscussionPostRepositoryImpl implements DiscussionPostRepository {
     }
 
     @Override
-    public @NonNull DiscussionPost save(@NonNull final DiscussionPost discussionPost) {
-        final DiscussionPostEntity discussionPostEntity = DiscussionPostEntity.from(discussionPost);
-        return jpaDiscussionPostRepository.save(discussionPostEntity).toDomain();
+    public @NonNull List<DiscussionPost> saveAll(@NonNull List<DiscussionPost> discussionPosts) {
+        final List<DiscussionPostEntity> discussionPostEntities = discussionPosts.stream()
+                .map(DiscussionPostEntity::from)
+                .toList();
+        return jpaDiscussionPostRepository.saveAll(discussionPostEntities).stream()
+                .map(DiscussionPostEntity::toDomain)
+                .toList();
     }
 
     @Override
