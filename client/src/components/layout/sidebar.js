@@ -49,7 +49,10 @@ export const Sidebar = () => {
         <Navbar />
       </div>
       <div className="bg-slate-400 w-full row-span-10 rounded-lg">
-        <Searchbar className="h-1/6" />
+        <div className="w-full p-1 flex flex-row">
+          <Searchbar />
+          <button onClick={() => setDiscussionPostFocus("CREATE")} className="w-1/3 bg-slate-800 text-white font-bold rounded-xl p-1 mr-2 mt-2 mb-2">Create</button>
+        </div>
         <div className="overflow-auto h-5/6">
           {discussionPostList}
         </div>
