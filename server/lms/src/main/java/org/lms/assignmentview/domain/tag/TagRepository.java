@@ -14,4 +14,7 @@ public interface TagRepository {
     @NonNull
     List<Tag> getCourseTags(@NonNull final CourseId courseId);
 
+    @NonNull
+    List<Tag> saveAll(@NonNull final List<Tag> tags);
+
 }

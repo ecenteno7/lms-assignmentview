@@ -78,7 +78,12 @@ public record DiscussionPostDto(
         }
         final List<TagId> tagIds = Optional.ofNullable(tags).stream()
                 .flatMap(List::stream)
-                .map(tag -> new TagId(tag.tagId()))
+                .peek(tagDto -> {
+                    if (Objects.isNull(tagDto.tagId())) {
+                        throw new IllegalArgumentException("Tag id is required.");
+                    }
+                })
+                .map(tagDto -> new TagId(tagDto.tagId()))
                 .toList();
         return new CreateDiscussionPostCommand(new User(new UserId(authorId), courseId), title, content, tagIds);
     }

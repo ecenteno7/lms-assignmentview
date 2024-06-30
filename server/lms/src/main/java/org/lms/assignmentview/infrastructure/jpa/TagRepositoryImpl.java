@@ -38,4 +38,14 @@ public class TagRepositoryImpl implements TagRepository {
                 .map(TagEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    public @NonNull List<Tag> saveAll(@NonNull final List<Tag> tags) {
+        final List<TagEntity> tagEntities = tags.stream()
+                .map(TagEntity::from)
+                .toList();
+        return jpaTagRepository.saveAll(tagEntities).stream()
+                .map(TagEntity::toDomain)
+                .toList();
+    }
 }
