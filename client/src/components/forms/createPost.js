@@ -7,7 +7,7 @@ import { getTags } from "../../services/api"
 export const CreatePost = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
-  const [tag, setTag] = useState("")
+  const [tag, setTag] = useState([])
   const [tags, setTags] = useState([])
   const { auth } = useContext(AuthContext)
   const { courseFocus } = useContext(CourseFocusContext)
@@ -21,9 +21,7 @@ export const CreatePost = () => {
             authorID: auth.userDetails.userID,
             title: title,
             content: content,
-            tags: [
-              { tagID: tag }
-            ]
+            tags: tag
           }
         ]
       }).then(res => {
@@ -38,9 +36,16 @@ export const CreatePost = () => {
 
   const renderTags = () => {
     getTags(courseFocus.courseId).then(res => {
+      let count = 0
       const tagList = res.data.tags.map(tag => {
+        if (count == 0){
+          setTag([
+            { tagID: tag.tagID }
+          ])
+        }
+        count++
         return (
-          <option value={`${tag.tagID}`} > {tag.name}</option >
+          <option value={`${tag.tagID}`}> {tag.name}</option >
         )
       })
       setTags(tagList)
@@ -63,7 +68,7 @@ export const CreatePost = () => {
           <input type="text" id="content" onChange={e => setContent(e.target.value)} class="text-start justify-start items-start h-full bg-slate-200 text-gray-900 outline-none text-sm rounded-lg block w-full p-2.5 " placeholder="Content" />
         </div>
         <div className="p-4 h-[10%]">
-          {tags && <select onChange={e => setTag(e.target.value)} name="Tags" className="rounded-xl p-2 mb-1 w-full ">
+          {tags && <select onChange={e => setTag([{ tagID: e.target.value }])} name="Tags" className="rounded-xl p-2 mb-1 w-full ">
             {tags}
           </select>
           }
