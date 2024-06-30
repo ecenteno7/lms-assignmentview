@@ -70,7 +70,7 @@ export const CreatePost = () => {
         </div>
         <p className="text-slate-800 text-left w-full pl-4 font-bold text-xl">Content</p>
         <div className="p-4 w-full h-[65%]">
-          <input type="text" id="content" onChange={e => setContent(e.target.value)} class="text-start justify-start items-start h-full bg-slate-200 text-gray-900 outline-none text-sm rounded-lg block w-full p-2.5 " placeholder="Content" />
+          <textarea type="text" id="content" onChange={e => setContent(e.target.value)} class="text-start justify-start items-start h-full bg-slate-200 text-gray-900 outline-none text-sm rounded-lg block w-full p-2.5 " placeholder="Content" />
         </div>
         <p className="text-slate-800 text-left w-full pl-4 font-bold text-xl">Tag</p>
         <div className="p-4 h-[10%] w-full">
