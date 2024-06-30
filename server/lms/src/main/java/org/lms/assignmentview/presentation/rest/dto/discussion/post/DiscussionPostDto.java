@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.discussion.DiscussionPost;
-import org.lms.assignmentview.domain.discussion.DiscussionPostView;
+import org.lms.assignmentview.domain.discussion.DiscussionPostsView;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
+import org.lms.assignmentview.domain.tag.TagId;
 import org.lms.assignmentview.domain.user.User;
+import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserId;
 import org.lms.assignmentview.presentation.rest.dto.discussion.response.DiscussionResponseDto;
 import org.lms.assignmentview.presentation.rest.dto.tag.TagDto;
@@ -15,6 +17,8 @@ import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Builder(toBuilder = true)
 public record DiscussionPostDto(
@@ -43,13 +47,14 @@ public record DiscussionPostDto(
         @Nullable List<TagDto> tags
 ) {
 
-    public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPostView discussionPostView) {
-        final DiscussionPost discussionPost = discussionPostView.discussionPost();
+    public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPost discussionPost,
+                                                  @NonNull final DiscussionPostsView discussionPostsView) {
+        final UserDetails userDetails = discussionPostsView.getUserDetailsFor(discussionPost.getAuthor());
         DiscussionPostDtoBuilder discussionPostBuilder = DiscussionPostDto.builder()
                 .discussionPostId(discussionPost.getId().id())
                 .authorId(discussionPost.getAuthor().userId().id())
-                .firstName(discussionPostView.userDetails().getFirstName())
-                .lastName(discussionPostView.userDetails().getLastName())
+                .firstName(userDetails.getFirstName())
+                .lastName(userDetails.getLastName())
                 .createdOn(discussionPost.getCreatedOn())
                 .updatedOn(discussionPost.getUpdatedOn().orElse(null))
                 .title(discussionPost.getTitle())
@@ -57,7 +62,7 @@ public record DiscussionPostDto(
                 .tags(discussionPost.getTags().stream()
                         .map(TagDto::from)
                         .toList());
-        if (discussionPostView.displayResponses()) {
+        if (discussionPostsView.displayResponses()) {
             discussionPostBuilder = discussionPostBuilder
                     .content(discussionPost.getContent())
                     .responses(discussionPost.getResponses().stream()
@@ -68,7 +73,19 @@ public record DiscussionPostDto(
     }
 
     public @NonNull CreateDiscussionPostCommand toCreateDiscussionPostCommand(@NonNull final CourseId courseId) {
-        return new CreateDiscussionPostCommand(new User(new UserId(authorId), courseId), title, content);
+        if (Objects.isNull(content)) {
+            throw new IllegalArgumentException("Content is required to create a discussion post.");
+        }
+        final List<TagId> tagIds = Optional.ofNullable(tags).stream()
+                .flatMap(List::stream)
+                .peek(tagDto -> {
+                    if (Objects.isNull(tagDto.tagId())) {
+                        throw new IllegalArgumentException("Tag id is required.");
+                    }
+                })
+                .map(tagDto -> new TagId(tagDto.tagId()))
+                .toList();
+        return new CreateDiscussionPostCommand(new User(new UserId(authorId), courseId), title, content, tagIds);
     }
 
 }

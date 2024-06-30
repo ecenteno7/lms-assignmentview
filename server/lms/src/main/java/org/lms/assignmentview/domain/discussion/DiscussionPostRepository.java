@@ -11,8 +11,7 @@ public interface DiscussionPostRepository {
     @NonNull
     Optional<DiscussionPost> findById(@NonNull final DiscussionPostId discussionPostId);
 
-    @NonNull
-    DiscussionPost save(@NonNull final DiscussionPost discussionPost);
+    @NonNull List<DiscussionPost> saveAll(@NonNull final List<DiscussionPost> discussionPosts);
 
     @NonNull List<DiscussionPost> findAllByCourseId(@NonNull final CourseId courseId);
 

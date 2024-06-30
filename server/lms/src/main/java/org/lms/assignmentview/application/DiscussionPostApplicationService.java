@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.lms.assignmentview.domain.discussion.DiscussionPost;
 import org.lms.assignmentview.domain.discussion.DiscussionPostService;
-import org.lms.assignmentview.domain.discussion.DiscussionPostView;
+import org.lms.assignmentview.domain.discussion.DiscussionPostsView;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
 import org.lms.assignmentview.domain.discussion.command.GetDiscussionPostByIdCommand;
 import org.lms.assignmentview.domain.discussion.command.GetDiscussionPostsCommand;
@@ -17,7 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 @Service
 @AllArgsConstructor
@@ -30,16 +33,21 @@ public class DiscussionPostApplicationService {
     private final UserService userService;
 
     @Transactional
-    public @NonNull DiscussionPostView createDiscussionPost(
-            @NonNull final CreateDiscussionPostCommand createDiscussionPostCommand
+    public @NonNull DiscussionPostsView createDiscussionPosts(
+            @NonNull final List<CreateDiscussionPostCommand> createDiscussionPostCommands
     ) {
-        final DiscussionPost discussionPost = discussionPostService.createDiscussionPost(createDiscussionPostCommand);
-        final UserDetails userDetails = userService.findByUser(discussionPost.getAuthor());
-        return new DiscussionPostView(discussionPost, userDetails, false);
+        final List<DiscussionPost> discussionPosts =
+                discussionPostService.createDiscussionPosts(createDiscussionPostCommands);
+        final Map<User, UserDetails> userDetailsByUserId = discussionPosts.stream()
+                .map(DiscussionPost::getAuthor)
+                .distinct()
+                .map(userService::findByUser)
+                .collect(toMap(UserDetails::getUser, Function.identity()));
+        return new DiscussionPostsView(discussionPosts, userDetailsByUserId, false);
     }
 
     @Transactional(readOnly = true)
-    public @NonNull List<DiscussionPostView> getClassDiscussionPosts(
+    public @NonNull DiscussionPostsView getClassDiscussionPosts(
             @NonNull final GetDiscussionPostsCommand getDiscussionPostsCommand
     ) {
         final List<DiscussionPost> discussionPosts =
@@ -48,19 +56,16 @@ public class DiscussionPostApplicationService {
                 .map(DiscussionPost::getAuthor)
                 .collect(Collectors.toSet());
         final Map<User, UserDetails> userDetailsMap = userService.findByUsers(users);
-        return discussionPosts.stream()
-                .map(discussionPost -> new DiscussionPostView(discussionPost,
-                        userDetailsMap.get(discussionPost.getAuthor()), false))
-                .toList();
+        return new DiscussionPostsView(discussionPosts, userDetailsMap, false);
     }
 
     @Transactional(readOnly = true)
-    public @NonNull DiscussionPostView getDiscussionPostById(
+    public @NonNull DiscussionPostsView getDiscussionPostById(
             @NonNull final GetDiscussionPostByIdCommand getDiscussionPostByIdCommand
     ) {
         final DiscussionPost discussionPost = discussionPostService.getDiscussionPostById(getDiscussionPostByIdCommand);
         final UserDetails userDetails = userService.findByUser(discussionPost.getAuthor());
-        return new DiscussionPostView(discussionPost, userDetails, true);
+        return new DiscussionPostsView(List.of(discussionPost), Map.of(userDetails.getUser(), userDetails), true);
     }
 
 }
