@@ -9,9 +9,10 @@ export const CreatePost = () => {
   const [content, setContent] = useState("")
   const [tag, setTag] = useState([])
   const [tags, setTags] = useState([])
-  const { auth } = useContext(AuthContext)
-  const { courseFocus } = useContext(CourseFocusContext)
   const [submitted, setSubmitted] = useState(true)
+
+  const { auth } = useContext(AuthContext)
+  const { courseFocus, setDiscussionPostFocus } = useContext(CourseFocusContext)
 
   const handleSubmit = () => {
     createDiscussionPost(courseFocus.courseId,
@@ -28,6 +29,7 @@ export const CreatePost = () => {
         if (res.status == 200) {
           console.log("Post created succesfully!")
           setSubmitted(false)
+          setDiscussionPostFocus("")
         } else {
           console.log(`Error creating post: ${res.status}`)
         }
@@ -38,7 +40,7 @@ export const CreatePost = () => {
     getTags(courseFocus.courseId).then(res => {
       let count = 0
       const tagList = res.data.tags.map(tag => {
-        if (count == 0){
+        if (count == 0) {
           setTag([
             { tagID: tag.tagID }
           ])
