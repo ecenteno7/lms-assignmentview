@@ -5,11 +5,13 @@ import lombok.NonNull;
 import lombok.Value;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
 import org.lms.assignmentview.domain.tag.Tag;
+import org.lms.assignmentview.domain.tag.TagId;
 import org.lms.assignmentview.domain.user.User;
 import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Value
@@ -49,7 +51,8 @@ public class DiscussionPost {
         return Optional.ofNullable(updatedOn);
     }
 
-    static @NonNull DiscussionPost createDiscussionPost(@NonNull final CreateDiscussionPostCommand command) {
+    static @NonNull DiscussionPost createDiscussionPost(@NonNull final CreateDiscussionPostCommand command,
+                                                        @NonNull final Map<TagId, Tag> tagsById) {
         return DiscussionPost.builder()
                 .id(DiscussionPostId.createId())
                 .author(command.author())
@@ -57,6 +60,9 @@ public class DiscussionPost {
                 .title(command.title())
                 .content(command.content())
                 .voteCount(0)
+                .tags(command.tagIds().stream()
+                        .map(tagsById::get)
+                        .toList())
                 .build();
     }
 
