@@ -1,0 +1,22 @@
+{
+  "requestUri": "/api/courses/{course-id}/discussion-posts",
+  "requestTemplate": {
+    "discussionPosts": [
+    ]
+  },
+  "templateVariables": [
+    {
+      "key": "discussionPosts",
+      "value": {
+        "authorID": "{{authorID}}",
+        "title": "{{title}}",
+        "content": "{{content}}",
+        "tags": [
+          {
+            "tagID": "{{tagID}}"
+          }
+        ]
+      }
+    }
+  ]
+}
