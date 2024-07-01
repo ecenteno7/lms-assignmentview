@@ -6,6 +6,7 @@
 - Erik Centeno (ecenteno3@gatech.edu)
 - Harrison Wittenbrook(hwittenbrook3@gatech.edu)
 
+![image](https://github.com/ecenteno7/lms-assignmentview/assets/48931172/6c4384ab-fef2-4149-9016-3217f5c0c56a)
 
 ### Application Description
 This repository contains the source code for Blink: An LMS designed from the perspective of the student learning experience. 
