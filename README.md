@@ -4,7 +4,7 @@
 - Erik Centeno (ecenteno3@gatech.edu)
 - Harrison Wittenbrook(hwittenbrook3@gatech.edu)
 
-#### Application Description
+### Application Description
 This repository contains the source code for Blink: An LMS designed from the perspective of the student learning experience. The application is being built actively as part of coursework for CS6460: Educational Technology at Georgia Institute of Technology as part of the Online MS in Computer Science program.
 
 ### Demo
