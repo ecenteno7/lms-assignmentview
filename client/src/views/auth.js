@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { userLogin } from "../services/api"
 
-
 export const Login = () => {
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
@@ -16,16 +15,17 @@ export const Login = () => {
   }, [user, pwd]);
 
   const handleSubmit = () => {
-    userLogin(user, pwd).then((res) => {
-      if (res.status == 200) {
-        console.log(res.data)
-        setAuth(res.data)
-        setSuccess(res.status)
-      } else {
-        setErrMsg(`ERR: ${res.status} - Error logging in.`)
-        console.log("err logging in")
-      }
-    });
+    userLogin(user, pwd)
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res.data)
+          setAuth(res.data)
+          setSuccess(res.status)
+        } else {
+          setErrMsg(`ERR: ${res.status} - Error logging in.`)
+          console.log("err logging in")
+        }
+      });
   }
 
   return (

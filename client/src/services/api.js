@@ -7,3 +7,24 @@ export const userLogin = async (username, password) => {
   })
   return res
 }
+
+export const getDiscussionPostList = async (courseId) => {
+  const res = await axios.get(`/api/courses/${courseId}/discussion-posts`)
+  return res
+}
+
+
+export const getDiscussionPostDetails = async (courseId, postId) => {
+  const res = await axios.get(`/api/courses/${courseId}/discussion-posts/${postId}`)
+  return res.data.discussionPosts[0]
+}
+
+export const createDiscussionPost = async (courseId, post) => {
+  const res = await axios.post(`/api/courses/${courseId}/discussion-posts`, post)
+  return res
+}
+
+export const getTags = async (courseId) => {
+  const res = await axios.get(`/api/courses/${courseId}/tags`)
+  return res
+}
