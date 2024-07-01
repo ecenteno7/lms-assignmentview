@@ -1,7 +1,5 @@
 # Blink: A Student Oriented LMS Focused on the Learning Experience 
-
 ![image](https://github.com/ecenteno7/lms-assignmentview/assets/48931172/6c4384ab-fef2-4149-9016-3217f5c0c56a)
-
 ### Contributors:
 - Erik Centeno (ecenteno3@gatech.edu)
 - Harrison Wittenbrook(hwittenbrook3@gatech.edu)
