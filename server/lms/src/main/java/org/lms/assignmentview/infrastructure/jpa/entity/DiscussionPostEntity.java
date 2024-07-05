@@ -45,7 +45,7 @@ public class DiscussionPostEntity {
     @Column(name = "vote_count")
     private int voteCount;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "discussionPost", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "discussionPostId", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DiscussionResponseEntity> discussionResponses;
 
     @JoinTable(
