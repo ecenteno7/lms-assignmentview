@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { CourseFocusContext } from "../../context/courseFocusContext"
 import { DiscussionPostModule } from "../../views/discussionPost.js"
+import { HomeModule } from "../../views/homeModule"
+import { PracticeModule } from "../../views/practiceModule"
 
 export const Body = () => {
   const { courseFocus } = useContext(CourseFocusContext);
@@ -12,9 +14,7 @@ export const Body = () => {
 
     if (courseFocus.selectedNav == "home") {
       return (
-        <div>
-          Home
-        </div>
+        <HomeModule />
       )
     }
     
@@ -27,11 +27,7 @@ export const Body = () => {
     }
 
     if (courseFocus.selectedNav == "practice") {
-      return (
-        <div>
-          Practice
-        </div>
-      )
+      return <PracticeModule /> 
     }
 
     if (courseFocus.selectedNav == "discussion") {

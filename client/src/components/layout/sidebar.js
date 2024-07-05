@@ -6,6 +6,8 @@ import { getDiscussionPostList } from "../../services/api"
 import { CourseFocusContext } from "../../context/courseFocusContext"
 import { IoCreate } from "react-icons/io5";
 import { DiscussionPostSidebar } from "../../views/discussionPostSidebar"
+import { HomeSidebar } from "../../views/homeSidebar"
+import { PracticeSidebar } from "../../views/practiceSidebar"
 
 export const Sidebar = () => {
   const { courseFocus, setDiscussionPostFocus } = useContext(CourseFocusContext)
@@ -16,11 +18,7 @@ export const Sidebar = () => {
     }
 
     if (courseFocus.selectedNav == "home") {
-      return (
-        <div>
-          Home
-        </div>
-      )
+      return <HomeSidebar /> 
     }
     
     if (courseFocus.selectedNav == "content") {
@@ -32,11 +30,7 @@ export const Sidebar = () => {
     }
 
     if (courseFocus.selectedNav == "practice") {
-      return (
-        <div>
-          Practice
-        </div>
-      )
+      return <PracticeSidebar /> 
     }
 
     if (courseFocus.selectedNav == "discussion") {
