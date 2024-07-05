@@ -40,7 +40,7 @@ export const Sidebar = () => {
     }
 
     if (courseFocus.selectedNav == "discussion") {
-      return <div>Discussion</div> 
+      return <DiscussionPostSidebar /> 
     }
   }
   
@@ -51,7 +51,7 @@ export const Sidebar = () => {
         <Navbar />
       </div>
       <div className="bg-slate-400 w-full row-span-10 rounded-lg">
-        <DiscussionPostSidebar />
+        { selectActiveModule() }
       </div>
       <Chatter />
     </div >
