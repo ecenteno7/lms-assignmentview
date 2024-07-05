@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.lms.assignmentview.domain.course.CourseId;
+import org.lms.assignmentview.domain.discussion.DiscussionPostId;
 import org.lms.assignmentview.domain.discussion.DiscussionResponse;
 import org.lms.assignmentview.domain.discussion.DiscussionResponseId;
 import org.lms.assignmentview.domain.user.User;
@@ -14,6 +14,7 @@ import org.lms.assignmentview.domain.user.UserId;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -25,20 +26,13 @@ public class DiscussionResponseEntity {
     @Id
     private UUID id;
 
-    @Setter
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
-    private DiscussionPostEntity discussionPost;
+    @Column(name = "discussion_post_id", updatable = false)
+    private UUID discussionPostId;
 
-//    @Column(name = "parent_response_id")
-//    private String parentResponseId;
+    @Column(name = "parent_response_id", updatable = false)
+    private UUID parentResponseId;
 
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "parent_response_id")
-    private DiscussionResponseEntity parent;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentResponseId", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DiscussionResponseEntity> responses;
 
     @Column(name = "author_id", updatable = false)
@@ -62,6 +56,9 @@ public class DiscussionResponseEntity {
     public static @NonNull DiscussionResponseEntity from(@NonNull final DiscussionResponse discussionResponse) {
         return DiscussionResponseEntity.builder()
                 .id(UUID.fromString(discussionResponse.getId().id()))
+                .discussionPostId(UUID.fromString(discussionResponse.getParentPostId().id()))
+                .parentResponseId(discussionResponse.getParentResponseId()
+                        .map(parentResponseId -> UUID.fromString(parentResponseId.id())).orElse(null))
                 .authorId(discussionResponse.getAuthor().userId().id())
                 .classId(discussionResponse.getAuthor().classId().id())
                 .createdOn(discussionResponse.getCreatedOn())
@@ -74,12 +71,16 @@ public class DiscussionResponseEntity {
     public @NonNull DiscussionResponse toDomain() {
         return DiscussionResponse.builder()
                 .id(new DiscussionResponseId(id.toString()))
+                .parentPostId(new DiscussionPostId(discussionPostId.toString()))
+                .parentResponseId(Optional.ofNullable(parentResponseId)
+                        .map(parentResponseId -> new DiscussionResponseId(parentResponseId.toString())).orElse(null))
                 .author(new User(new UserId(authorId), new CourseId(classId)))
                 .createdOn(createdOn)
                 .updatedOn(updatedOn)
                 .content(content)
                 .voteCount(voteCount)
-                .responses(responses.stream()
+                .responses(Optional.ofNullable(responses).stream()
+                        .flatMap(List::stream)
                         .map(DiscussionResponseEntity::toDomain)
                         .toList())
                 .build();

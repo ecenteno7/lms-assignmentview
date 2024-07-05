@@ -1,4 +1,4 @@
-package org.lms.assignmentview.infrastructure.jpa;
+package org.lms.assignmentview.infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
