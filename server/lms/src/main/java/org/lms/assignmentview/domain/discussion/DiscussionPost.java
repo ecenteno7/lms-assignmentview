@@ -66,4 +66,9 @@ public class DiscussionPost {
                 .build();
     }
 
+    public boolean hasAcceptedResponse() {
+        return responses.stream()
+                .anyMatch(DiscussionResponse::hasAcceptedResponse);
+    }
+
 }
