@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.lms.assignmentview.domain.discussion.DiscussionResponse;
 import org.lms.assignmentview.domain.discussion.DiscussionResponseService;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionResponseCommand;
+import org.lms.assignmentview.domain.discussion.command.UpdateDiscussionResponseCommand;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,13 @@ public class DiscussionResponseApplicationService {
             @NonNull final List<CreateDiscussionResponseCommand> createDiscussionResponseCommands
     ) {
         return discussionResponseService.createDiscussionResponses(createDiscussionResponseCommands);
+    }
+
+    @Transactional
+    public @NonNull DiscussionResponse updateDiscussionResponse(
+            @NonNull final UpdateDiscussionResponseCommand updateDiscussionResponseCommand
+    ) {
+        return discussionResponseService.updateDiscussionResponse(updateDiscussionResponseCommand);
     }
 
 }

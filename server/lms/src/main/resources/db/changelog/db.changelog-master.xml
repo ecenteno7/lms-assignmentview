@@ -37,4 +37,8 @@
         <sqlFile path="db/changelog/scripts/create-tags-table.sql"/>
     </changeSet>
 
+    <changeSet id="9" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/add-accepted-column-to-response-table.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

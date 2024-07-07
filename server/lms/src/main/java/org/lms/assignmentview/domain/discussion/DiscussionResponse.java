@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionResponseCommand;
+import org.lms.assignmentview.domain.discussion.command.UpdateDiscussionResponseCommand;
 import org.lms.assignmentview.domain.user.User;
 import org.springframework.lang.Nullable;
 
@@ -38,6 +39,8 @@ public class DiscussionResponse {
 
     private int voteCount;
 
+    private boolean accepted;
+
     @NonNull
     @Builder.Default
     private final List<DiscussionResponse> responses = List.of();
@@ -51,17 +54,36 @@ public class DiscussionResponse {
     }
 
     public static @NonNull DiscussionResponse createDiscussionResponse(
-            @NonNull final CreateDiscussionResponseCommand comamnd
+            @NonNull final CreateDiscussionResponseCommand command
     ) {
         return DiscussionResponse.builder()
                 .id(DiscussionResponseId.createId())
-                .parentPostId(comamnd.parentPostId())
-                .parentResponseId(comamnd.parentResponseId())
-                .author(comamnd.author())
+                .parentPostId(command.parentPostId())
+                .parentResponseId(command.parentResponseId())
+                .author(command.author())
                 .createdOn(OffsetDateTime.now())
-                .content(comamnd.content())
+                .content(command.content())
                 .voteCount(0)
                 .build();
+    }
+
+    public @NonNull DiscussionResponse updateDiscussionResponse(
+            @NonNull final UpdateDiscussionResponseCommand command,
+            @NonNull final DiscussionPost discussionPost
+    ) {
+        if (command.getAccepted().isPresent() && discussionPost.hasAcceptedResponse()) {
+            throw new IllegalArgumentException(
+                    "Cannot accept a discussion response when another response is already accepted.");
+        }
+        return this.toBuilder()
+                .accepted(command.getAccepted().orElse(this.isAccepted()))
+                .content(command.getContent().orElse(this.getContent()))
+                .updatedOn(OffsetDateTime.now())
+                .build();
+    }
+
+    public boolean hasAcceptedResponse() {
+        return this.accepted || responses.stream().anyMatch(DiscussionResponse::hasAcceptedResponse);
     }
 
 }

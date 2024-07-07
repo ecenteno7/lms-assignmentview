@@ -53,18 +53,25 @@ public class DiscussionResponseEntity {
     @Column(name = "vote_count")
     private int voteCount;
 
+    @Column(name = "accepted")
+    private boolean accepted;
+
     public static @NonNull DiscussionResponseEntity from(@NonNull final DiscussionResponse discussionResponse) {
         return DiscussionResponseEntity.builder()
                 .id(UUID.fromString(discussionResponse.getId().id()))
                 .discussionPostId(UUID.fromString(discussionResponse.getParentPostId().id()))
                 .parentResponseId(discussionResponse.getParentResponseId()
                         .map(parentResponseId -> UUID.fromString(parentResponseId.id())).orElse(null))
+                .responses(discussionResponse.getResponses().stream()
+                        .map(DiscussionResponseEntity::from)
+                        .toList())
                 .authorId(discussionResponse.getAuthor().userId().id())
                 .classId(discussionResponse.getAuthor().classId().id())
                 .createdOn(discussionResponse.getCreatedOn())
                 .updatedOn(discussionResponse.getUpdatedOn().orElse(null))
                 .content(discussionResponse.getContent())
                 .voteCount(discussionResponse.getVoteCount())
+                .accepted(discussionResponse.isAccepted())
                 .build();
     }
 
@@ -83,6 +90,7 @@ public class DiscussionResponseEntity {
                         .flatMap(List::stream)
                         .map(DiscussionResponseEntity::toDomain)
                         .toList())
+                .accepted(accepted)
                 .build();
     }
 

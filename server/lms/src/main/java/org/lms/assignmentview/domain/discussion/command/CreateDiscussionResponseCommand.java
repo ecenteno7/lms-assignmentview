@@ -12,6 +12,7 @@ public record CreateDiscussionResponseCommand(
         @NonNull DiscussionPostId parentPostId,
         @Nullable DiscussionResponseId parentResponseId,
         @NonNull User author,
-        @NonNull String content
+        @NonNull String content,
+        boolean accepted
 ) {
 }
