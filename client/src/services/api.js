@@ -28,3 +28,8 @@ export const getTags = async (courseId) => {
   const res = await axios.get(`/api/courses/${courseId}/tags`)
   return res
 }
+
+export const fetchAuthorDetails = async (authorId, courseId) => {
+  const res = await axios.get(`/api/admin/courses/${courseId}/users/${authorId}`)
+  return res
+}

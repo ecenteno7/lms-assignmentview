@@ -2,6 +2,9 @@ import { useContext, useEffect, useState } from "react"
 import { CourseFocusContext } from "../context/courseFocusContext"
 import { CreatePost } from "../components/forms/createPost";
 import { getDiscussionPostDetails } from "../services/api";
+import { Post } from "../components/layout/post";
+import { Reply } from "../components/layout/reply";
+import { CreateReply } from "../components/forms/createReply";
 
 export const DiscussionPostModule = () => {
 
@@ -13,6 +16,7 @@ export const DiscussionPostModule = () => {
       return
     }
 
+
     getDiscussionPostDetails(courseFocus.courseId, courseFocus.discussionPostFocus)
       .then((post) => {
         console.log(post)
@@ -22,23 +26,29 @@ export const DiscussionPostModule = () => {
         console.log(`${err.message}: ${err.config.url}`)
       })
   }, [courseFocus])
-  
+
   return (
-    courseFocus.discussionPostFocus == 'CREATE' ?
-    <CreatePost />
-        :
-        postDetails &&
-        <div className="m-4 rounded-xl bg-slate-200 w-full h-max max-h-80 overflow-auto">
-          <p className="font-bold text-2xl text-left p-4">{postDetails.title}</p>
-          <p className="font-semibold text-xl text-left pl-4">{`${postDetails.firstName} ${postDetails.lastName}`}</p>
-          <p className="text-left p-4">{postDetails.content}</p>
-          {postDetails.tags.map(tag => {
-            return (
-              <div className="w-fit h-10 ml-4 flex justify-center items-center rounded-xl bg-slate-800 p-3 mb-4 text-white font-semibold">
-                <p className="text-left">{tag.name}</p>
-              </div>
-            )
-          })}
-        </div>
-  ) 
+    <div className="flex flex-col items-center w-full max-h-fit pl-4 pr-4 mb-2 overflow-y-auto">
+      {
+        courseFocus.discussionPostFocus == 'CREATE' ?
+          <CreatePost />
+          :
+          postDetails &&
+          <Post postDetails={postDetails} />
+      }
+      <div className="w-full">
+        {postDetails && postDetails.responses.length > 0 && <p className="font-bold text-left text-xl">Accepted Answer</p>}
+        {postDetails && postDetails.responses.length > 1 && <Reply replyDetails={postDetails.responses[0]} />}
+        {postDetails && postDetails.responses.length > 1 && <p className="font-bold text-left text-xl pt-2">Discussion</p>}
+        {
+          postDetails && postDetails.responses.length > 1 &&
+          postDetails.responses.slice(1).map(reply => {
+            return <Reply replyDetails={reply} />
+          })
+        }
+        <p className="font-bold text-left text-xl mt-2 pt-2">Reply</p>
+        <CreateReply />
+      </div>
+    </div>
+  )
 }
