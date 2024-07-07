@@ -58,7 +58,11 @@ export const DiscussionPostModule = () => {
         {
           postDetails && postDetails.responses.length > 1 &&
           postDetails.responses.slice(1).map(reply => {
-            return <Reply replyDetails={reply} />
+            const replyDetails = {
+                ...reply,
+                discussionPostID: postDetails.discussionPostID
+              }
+              return <Reply replyDetails={replyDetails} />
           })
         }
         <p className="font-bold text-left text-xl mt-2 pt-2">Reply</p>

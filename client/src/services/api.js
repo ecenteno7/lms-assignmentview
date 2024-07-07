@@ -46,3 +46,15 @@ export const createDiscussionPostReply = async (authorId, courseId, discussionPo
   })
   return res
 }
+
+export const markAcceptedAnswer = async (discussionResponseId, acceptedAnswer, courseId, discussionPostId) => {
+  const res = await axios.patch(`/api/courses/${courseId}/discussion-posts/${discussionPostId}/responses/${discussionResponseId}`, {
+    responses: [
+      {
+        discussionResponseID: discussionResponseId,
+        accepted: acceptedAnswer 
+      }
+    ]
+  })
+  return res
+}
