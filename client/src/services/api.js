@@ -33,3 +33,16 @@ export const fetchAuthorDetails = async (authorId, courseId) => {
   const res = await axios.get(`/api/admin/courses/${courseId}/users/${authorId}`)
   return res
 }
+
+export const createDiscussionPostReply = async (authorId, courseId, discussionPostId, reply) => {
+  const res = await axios.post(`/api/courses/${courseId}/discussion-posts/${discussionPostId}/responses`, {
+    responses: [
+      {
+        authorID: authorId,
+        classID: courseId,
+        content: reply
+      }
+    ]
+  })
+  return res
+}

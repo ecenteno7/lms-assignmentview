@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { CourseFocusContext } from "../context/courseFocusContext"
+import { AuthContext } from "../context/authContext"
 import { CreatePost } from "../components/forms/createPost";
 import { getDiscussionPostDetails } from "../services/api";
 import { Post } from "../components/layout/post";
@@ -9,6 +10,8 @@ import { CreateReply } from "../components/forms/createReply";
 export const DiscussionPostModule = () => {
 
   const { courseFocus } = useContext(CourseFocusContext);
+  const { auth } = useContext(AuthContext);
+
   const [postDetails, setPostDetails] = useState(null);
 
   useEffect(() => {
@@ -26,6 +29,18 @@ export const DiscussionPostModule = () => {
         console.log(`${err.message}: ${err.config.url}`)
       })
   }, [courseFocus])
+
+  const refreshReplies = () => {
+    getDiscussionPostDetails(courseFocus.courseId, courseFocus.discussionPostFocus)
+      .then((post) => {
+        if (post.responses.length != postDetails.responses.length) {
+          setPostDetails(post)
+        }
+      })
+      .catch(err => {
+        console.log(`${err.message}: ${err.config.url}`)
+      })
+  } 
 
   return (
     <div className="flex flex-col items-center w-full max-h-fit pl-4 pr-4 mb-2 overflow-y-auto">
@@ -47,7 +62,7 @@ export const DiscussionPostModule = () => {
           })
         }
         <p className="font-bold text-left text-xl mt-2 pt-2">Reply</p>
-        <CreateReply />
+        {postDetails && <CreateReply refresh={refreshReplies} authorId={auth.userDetails.userID} courseId={courseFocus.courseId} discussionPostId={postDetails.discussionPostID}/>}
       </div>
     </div>
   )
