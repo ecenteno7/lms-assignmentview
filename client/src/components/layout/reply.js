@@ -18,7 +18,7 @@ export const Reply = ({ replyDetails }) => {
   return (
     <div className="rounded-xl mt-2 bg-slate-200 w-full h-max max-h-80 overflow-auto">
       <p className="text-left p-4">{replyDetails.content}</p>
-      <p className="text-left pl-4 pb-2 text-sm font-semibold">{new Date().toUTCString(replyDetails.createdOn)}</p>
+      <p className="text-left pl-4 pb-2 text-sm font-semibold">{new Date(replyDetails.createdOn).toUTCString()}</p>
       <div className="w-fit h-10 ml-4 flex justify-center items-center rounded-xl bg-slate-800 p-3 mb-4 text-white font-semibold">
         <p className="text-left">{`${author.firstName} ${author.lastName}`}</p>
       </div>

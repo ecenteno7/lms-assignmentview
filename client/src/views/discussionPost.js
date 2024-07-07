@@ -53,7 +53,7 @@ export const DiscussionPostModule = () => {
       }
       <div className="w-full">
         {postDetails && postDetails.responses.length > 0 && <p className="font-bold text-left text-xl">Accepted Answer</p>}
-        {postDetails && postDetails.responses.length > 1 && <Reply replyDetails={postDetails.responses[0]} />}
+        {postDetails && postDetails.responses.length > 0 && <Reply replyDetails={postDetails.responses[0]} />}
         {postDetails && postDetails.responses.length > 1 && <p className="font-bold text-left text-xl pt-2">Discussion</p>}
         {
           postDetails && postDetails.responses.length > 1 &&
