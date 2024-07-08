@@ -16,7 +16,7 @@ export const getDiscussionPostList = async (courseId) => {
 
 export const getDiscussionPostDetails = async (courseId, postId) => {
   const res = await axios.get(`/api/courses/${courseId}/discussion-posts/${postId}`)
-  return res.data.discussionPosts[0]
+  return res
 }
 
 export const createDiscussionPost = async (courseId, post) => {

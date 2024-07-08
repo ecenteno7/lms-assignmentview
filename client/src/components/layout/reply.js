@@ -4,7 +4,7 @@ import { fetchAuthorDetails, markAcceptedAnswer } from "../../services/api"
 import { TfiLayoutMenuSeparated } from "react-icons/tfi"
 import { ReplyMenu } from "../forms/replyMenu"
 
-export const Reply = ({ replyDetails }) => {
+export const Reply = ({ refreshReplies, replyDetails, acceptedAnswerId }) => {
   const [author, setAuthor] = useState({})
   const [showMenu, setShowMenu] = useState(false)
 
@@ -12,10 +12,10 @@ export const Reply = ({ replyDetails }) => {
 
   const useOutsideAlerter = (ref) => {
     useEffect(() => {
-        const handleClickOut = (event) => ref.current && !ref.current.contains(event.target) ? setShowMenu(false) : true
+        const handleClickOut = (event) => ref.current && !ref.current.contains(event.target) ? setShowMenu(false) : null
         
         document.addEventListener("mousedown", handleClickOut)
-        return document.removeEventListener("mousedown", handleClickOut)
+        return () => document.removeEventListener("mousedown", handleClickOut)
         
     }, [ref])
   }
@@ -28,7 +28,40 @@ export const Reply = ({ replyDetails }) => {
   }
 
   const handleMarkAccepted = () => {
-    markAcceptedAnswer(replyDetails.discussionResponseID, true, courseFocus.courseId, replyDetails.discussionPostID) 
+    if (acceptedAnswerId){
+      markAcceptedAnswer(acceptedAnswerId, false, courseFocus.courseId, replyDetails.discussionPostID)
+      .then((res) => {
+        if (res.status == 200){
+          markAcceptedAnswer(replyDetails.discussionResponseID, true, courseFocus.courseId, replyDetails.discussionPostID) 
+            .then((res) => {
+              if (res.status == 200) {
+                handleMenu()
+                refreshReplies()
+              }
+            })
+      }
+    })
+    } else {
+      markAcceptedAnswer(replyDetails.discussionResponseID, true, courseFocus.courseId, replyDetails.discussionPostID)
+        .then((res) => {
+          if (res.status == 200){
+            handleMenu()
+            refreshReplies()
+          }
+        })
+    }
+  }
+
+  const ReplyMenuComponent = () => {
+      if (showMenu) {
+       return <ReplyMenu clickRef={clickRef} handleMarkAccepted={handleMarkAccepted}/>
+      } else {
+       return (
+        <div className="h-full w-fit flex flex-col justify-center cursor-pointer" onClick={handleMenu}>
+          <TfiLayoutMenuSeparated />
+        </div>
+       )
+    } 
   }
   
   useEffect(() => {
@@ -37,7 +70,6 @@ export const Reply = ({ replyDetails }) => {
         setAuthor(res.data)
       }
     })
-    setShowMenu(false)   
   }, [])
 
   return (
@@ -53,12 +85,7 @@ export const Reply = ({ replyDetails }) => {
           </div>
         </div>
         <div className="w-full flex flex-row justify-end items-center pr-4 mb-2">
-          {showMenu && 
-            <ReplyMenu ref={clickRef} handleMarkAccepted={handleMarkAccepted}/>
-          }
-          {!showMenu && <div className="h-full w-fit flex flex-col justify-center cursor-pointer" onClick={handleMenu}>
-            <TfiLayoutMenuSeparated />
-          </div>}
+          <ReplyMenuComponent />
         </div>
       </div>
     </div>

@@ -2,14 +2,14 @@ import {createDiscussionPostReply} from "../../services/api"
 import {useState} from "react"
 
 
-export const CreateReply = ({authorId, courseId, discussionPostId, refresh}) => {
+export const CreateReply = ({authorId, courseId, discussionPostId, refreshReplies}) => {
   const [reply, setReply] = useState("")
   
   const handleSubmit = () => {
     createDiscussionPostReply(authorId, courseId, discussionPostId, reply)
       .then(res => {
         if (res.status == 200){
-          refresh()
+          refreshReplies()
           setReply("")
         }
       })   
