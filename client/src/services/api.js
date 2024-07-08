@@ -16,7 +16,7 @@ export const getDiscussionPostList = async (courseId) => {
 
 export const getDiscussionPostDetails = async (courseId, postId) => {
   const res = await axios.get(`/api/courses/${courseId}/discussion-posts/${postId}`)
-  return res.data.discussionPosts[0]
+  return res
 }
 
 export const createDiscussionPost = async (courseId, post) => {
@@ -26,5 +26,35 @@ export const createDiscussionPost = async (courseId, post) => {
 
 export const getTags = async (courseId) => {
   const res = await axios.get(`/api/courses/${courseId}/tags`)
+  return res
+}
+
+export const fetchAuthorDetails = async (authorId, courseId) => {
+  const res = await axios.get(`/api/admin/courses/${courseId}/users/${authorId}`)
+  return res
+}
+
+export const createDiscussionPostReply = async (authorId, courseId, discussionPostId, reply) => {
+  const res = await axios.post(`/api/courses/${courseId}/discussion-posts/${discussionPostId}/responses`, {
+    responses: [
+      {
+        authorID: authorId,
+        classID: courseId,
+        content: reply
+      }
+    ]
+  })
+  return res
+}
+
+export const markAcceptedAnswer = async (discussionResponseId, acceptedAnswer, courseId, discussionPostId) => {
+  const res = await axios.patch(`/api/courses/${courseId}/discussion-posts/${discussionPostId}/responses/${discussionResponseId}`, {
+    responses: [
+      {
+        discussionResponseID: discussionResponseId,
+        accepted: acceptedAnswer 
+      }
+    ]
+  })
   return res
 }

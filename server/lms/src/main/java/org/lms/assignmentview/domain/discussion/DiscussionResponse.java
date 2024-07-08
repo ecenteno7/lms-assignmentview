@@ -72,8 +72,10 @@ public class DiscussionResponse {
             @NonNull final DiscussionPost discussionPost
     ) {
         if (command.getAccepted().isPresent() && discussionPost.hasAcceptedResponse()) {
-            throw new IllegalArgumentException(
+            if (command.getAccepted().orElse(this.isAccepted())){
+              throw new IllegalArgumentException(
                     "Cannot accept a discussion response when another response is already accepted.");
+            }
         }
         return this.toBuilder()
                 .accepted(command.getAccepted().orElse(this.isAccepted()))

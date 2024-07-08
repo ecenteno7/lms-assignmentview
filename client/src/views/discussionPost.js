@@ -1,44 +1,57 @@
 import { useContext, useEffect, useState } from "react"
 import { CourseFocusContext } from "../context/courseFocusContext"
+import { AuthContext } from "../context/authContext"
 import { CreatePost } from "../components/forms/createPost";
 import { getDiscussionPostDetails } from "../services/api";
-
+import { Post } from "../components/layout/post";
+import { Reply } from "../components/layout/reply";
+import { CreateReply } from "../components/forms/createReply";
+import { ReplyList } from "../components/layout/replyList"
 export const DiscussionPostModule = () => {
 
   const { courseFocus } = useContext(CourseFocusContext);
-  const [postDetails, setPostDetails] = useState(null);
+  const { auth } = useContext(AuthContext);
 
+  const [postDetails, setPostDetails] = useState(null);
+  const [acceptedAnswer, setAcceptedAnswer] = useState(null);
+  
   useEffect(() => {
     if (courseFocus.courseId == null || courseFocus.discussionPostFocus == 'CREATE') {
       return
+    } else if (courseFocus.discussionPostFocus){
+      refreshReplies()
     }
-
-    getDiscussionPostDetails(courseFocus.courseId, courseFocus.discussionPostFocus)
-      .then((post) => {
-        console.log(post)
-        setPostDetails(post);
-      })
-      .catch((err) => {
-        console.log(`${err.message}: ${err.config.url}`)
-      })
   }, [courseFocus])
-  
+
+  const refreshReplies = () => {
+    setAcceptedAnswer(null)
+    getDiscussionPostDetails(courseFocus.courseId, courseFocus.discussionPostFocus)
+      .then(res => {
+        if (res.status == 200) {
+          return res.data.discussionPosts[0]
+        }
+      }).catch(err => {
+        console.log(err)
+      }).then(post => {
+        setPostDetails(post)
+          post.responses.map(reply => {
+            if (reply.accepted) {
+              setAcceptedAnswer(reply)
+            }
+          })
+      })
+  } 
+
   return (
-    courseFocus.discussionPostFocus == 'CREATE' ?
-    <CreatePost />
-        :
-        postDetails &&
-        <div className="m-4 rounded-xl bg-slate-200 w-full h-max max-h-80 overflow-auto">
-          <p className="font-bold text-2xl text-left p-4">{postDetails.title}</p>
-          <p className="font-semibold text-xl text-left pl-4">{`${postDetails.firstName} ${postDetails.lastName}`}</p>
-          <p className="text-left p-4">{postDetails.content}</p>
-          {postDetails.tags.map(tag => {
-            return (
-              <div className="w-fit h-10 ml-4 flex justify-center items-center rounded-xl bg-slate-800 p-3 mb-4 text-white font-semibold">
-                <p className="text-left">{tag.name}</p>
-              </div>
-            )
-          })}
-        </div>
-  ) 
+    <div className="flex flex-col items-center w-full max-h-fit pl-4 pr-4 mb-2 overflow-y-auto">
+      {
+        courseFocus.discussionPostFocus == 'CREATE' ?
+          <CreatePost />
+          :
+          postDetails &&
+          <Post postDetails={postDetails} />
+      }
+      <ReplyList refreshReplies={refreshReplies} postDetails={postDetails} setPostDetails acceptedAnswer={acceptedAnswer} />
+    </div>
+  )
 }
