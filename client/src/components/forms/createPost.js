@@ -62,7 +62,7 @@ export const CreatePost = () => {
 
   return (
     submitted ?
-      <div id="create-post" className="w-full flex flex-col justify-center items-center">
+      <div id="create-post" className="w-full h-full flex flex-col justify-center items-center">
         <p className="text-slate-800 text-left w-full pt-4 pl-4 font-bold text-3xl">Create Discussion Post</p>
         <p className="text-slate-800 text-left w-full pt-4 pl-4 font-bold text-xl">Title</p>
         <div className="p-4 w-full h-[15%]">
