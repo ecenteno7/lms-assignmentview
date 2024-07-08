@@ -49,9 +49,13 @@ export const DiscussionPostModule = () => {
           <CreatePost />
           :
           postDetails &&
-          <Post postDetails={postDetails} />
+          (
+            <>
+              <Post postDetails={postDetails} />
+              <ReplyList refreshReplies={refreshReplies} postDetails={postDetails} setPostDetails acceptedAnswer={acceptedAnswer} />
+            </>
+          )
       }
-      <ReplyList refreshReplies={refreshReplies} postDetails={postDetails} setPostDetails acceptedAnswer={acceptedAnswer} />
     </div>
   )
 }
