@@ -41,4 +41,8 @@
         <sqlFile path="db/changelog/scripts/add-accepted-column-to-response-table.sql"/>
     </changeSet>
 
+    <changeSet id="10" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/create-assignment-and-module-table.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

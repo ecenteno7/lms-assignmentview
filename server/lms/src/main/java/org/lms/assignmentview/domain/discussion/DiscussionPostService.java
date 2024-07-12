@@ -60,4 +60,8 @@ public class DiscussionPostService {
         return discussionPostRepository.findById(getDiscussionPostByIdCommand.discussionPostId()).orElseThrow();
     }
 
+    public @NonNull List<DiscussionPost> getAllByTagId(@NonNull final TagId tagId) {
+        return discussionPostRepository.findAllByTagId(tagId);
+    }
+
 }
