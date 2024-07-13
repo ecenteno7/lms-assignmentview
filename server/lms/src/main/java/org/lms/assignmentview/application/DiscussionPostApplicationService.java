@@ -64,8 +64,10 @@ public class DiscussionPostApplicationService {
             @NonNull final GetDiscussionPostByIdCommand getDiscussionPostByIdCommand
     ) {
         final DiscussionPost discussionPost = discussionPostService.getDiscussionPostById(getDiscussionPostByIdCommand);
-        final UserDetails userDetails = userService.findByUser(discussionPost.getAuthor());
-        return new DiscussionPostsView(List.of(discussionPost), Map.of(userDetails.getUser(), userDetails), true);
+        final Set<User> involvedUsers = discussionPost.getInvolvedUsers()
+                .collect(Collectors.toSet());
+        final Map<User, UserDetails> userDetailsByUser = userService.findByUsers(involvedUsers);
+        return new DiscussionPostsView(List.of(discussionPost), userDetailsByUser, true);
     }
 
 }
