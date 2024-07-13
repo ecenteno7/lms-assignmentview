@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Value
 @Builder(toBuilder = true)
@@ -69,6 +70,21 @@ public class DiscussionPost {
     public boolean hasAcceptedResponse() {
         return responses.stream()
                 .anyMatch(DiscussionResponse::hasAcceptedResponse);
+    }
+
+    public @NonNull DiscussionPost withOnlyAcceptedResponses() {
+        return this.toBuilder()
+                .responses(responses.stream()
+                        .filter(DiscussionResponse::hasAcceptedResponse)
+                        .toList())
+                .build();
+    }
+
+    public @NonNull Stream<User> getInvolvedUsers() {
+        final Stream<User> responseUsers = responses.stream()
+                .flatMap(DiscussionResponse::getInvolvedUsers);
+        return Stream.concat(Stream.of(author), responseUsers)
+                .distinct();
     }
 
 }

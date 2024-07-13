@@ -2,23 +2,21 @@ package org.lms.assignmentview.presentation.rest.dto.discussion.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.NonNull;
 import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.discussion.DiscussionPost;
 import org.lms.assignmentview.domain.discussion.DiscussionPostsView;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
 import org.lms.assignmentview.domain.tag.TagId;
-import org.lms.assignmentview.domain.user.Role;
 import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserId;
 import org.lms.assignmentview.presentation.rest.dto.discussion.response.DiscussionResponseDto;
 import org.lms.assignmentview.presentation.rest.dto.tag.TagDto;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -30,9 +28,9 @@ public record DiscussionPostDto(
         @JsonProperty("authorID")
         @NonNull String authorId,
 
-        @NonNull String firstName,
+        @Nullable String firstName,
 
-        @NonNull String lastName,
+        @Nullable String lastName,
 
         @Nullable OffsetDateTime createdOn,
 
@@ -48,12 +46,6 @@ public record DiscussionPostDto(
 
         @Nullable List<TagDto> tags
 ) {
-
-    // TODO: DELETE THIS METHOD AND REFACTOR SO IT ISN'T NEEDED
-    public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPost discussionPost) {
-        return from(discussionPost, new DiscussionPostsView(List.of(discussionPost), Map.of(discussionPost.getAuthor(),
-                new UserDetails(discussionPost.getAuthor(), "firstName", "lastName", Role.Student)), true));
-    }
 
     public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPost discussionPost,
                                                   @NonNull final DiscussionPostsView discussionPostsView) {
@@ -74,7 +66,8 @@ public record DiscussionPostDto(
             discussionPostBuilder = discussionPostBuilder
                     .content(discussionPost.getContent())
                     .responses(discussionPost.getResponses().stream()
-                            .map(DiscussionResponseDto::from)
+                            .map(discussionResponse -> DiscussionResponseDto.from(discussionResponse,
+                                    discussionPostsView))
                             .toList());
         }
         return discussionPostBuilder.build();

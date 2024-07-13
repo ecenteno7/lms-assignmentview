@@ -11,6 +11,7 @@ import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Value
 @Builder(toBuilder = true)
@@ -72,9 +73,9 @@ public class DiscussionResponse {
             @NonNull final DiscussionPost discussionPost
     ) {
         if (command.getAccepted().isPresent() && discussionPost.hasAcceptedResponse()) {
-            if (command.getAccepted().orElse(this.isAccepted())){
-              throw new IllegalArgumentException(
-                    "Cannot accept a discussion response when another response is already accepted.");
+            if (command.getAccepted().orElse(this.isAccepted())) {
+                throw new IllegalArgumentException(
+                        "Cannot accept a discussion response when another response is already accepted.");
             }
         }
         return this.toBuilder()
@@ -86,6 +87,13 @@ public class DiscussionResponse {
 
     public boolean hasAcceptedResponse() {
         return this.accepted || responses.stream().anyMatch(DiscussionResponse::hasAcceptedResponse);
+    }
+
+    @NonNull Stream<User> getInvolvedUsers() {
+        final Stream<User> responseUsers = responses.stream()
+                .flatMap(DiscussionResponse::getInvolvedUsers);
+        return Stream.concat(Stream.of(author), responseUsers)
+                .distinct();
     }
 
 }

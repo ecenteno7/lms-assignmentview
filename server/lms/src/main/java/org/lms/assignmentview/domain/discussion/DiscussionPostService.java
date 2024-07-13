@@ -60,8 +60,12 @@ public class DiscussionPostService {
         return discussionPostRepository.findById(getDiscussionPostByIdCommand.discussionPostId()).orElseThrow();
     }
 
-    public @NonNull List<DiscussionPost> getAllByTagId(@NonNull final TagId tagId) {
-        return discussionPostRepository.findAllByTagId(tagId);
+    public @NonNull List<DiscussionPost> getDiscussionInsights(@NonNull final TagId tagId) {
+        final List<DiscussionPost> allTaggedPosts = discussionPostRepository.findAllByTagId(tagId);
+        return allTaggedPosts.stream()
+                .map(DiscussionPost::withOnlyAcceptedResponses)
+                .filter(discussionPost -> !discussionPost.getResponses().isEmpty())
+                .toList();
     }
 
 }
