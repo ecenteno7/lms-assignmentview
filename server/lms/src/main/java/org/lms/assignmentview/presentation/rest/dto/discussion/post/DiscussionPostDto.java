@@ -2,6 +2,7 @@ package org.lms.assignmentview.presentation.rest.dto.discussion.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.NonNull;
 import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.discussion.DiscussionPost;
 import org.lms.assignmentview.domain.discussion.DiscussionPostsView;
@@ -12,7 +13,6 @@ import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserId;
 import org.lms.assignmentview.presentation.rest.dto.discussion.response.DiscussionResponseDto;
 import org.lms.assignmentview.presentation.rest.dto.tag.TagDto;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
@@ -28,9 +28,9 @@ public record DiscussionPostDto(
         @JsonProperty("authorID")
         @NonNull String authorId,
 
-        @NonNull String firstName,
+        @Nullable String firstName,
 
-        @NonNull String lastName,
+        @Nullable String lastName,
 
         @Nullable OffsetDateTime createdOn,
 
@@ -66,7 +66,8 @@ public record DiscussionPostDto(
             discussionPostBuilder = discussionPostBuilder
                     .content(discussionPost.getContent())
                     .responses(discussionPost.getResponses().stream()
-                            .map(DiscussionResponseDto::from)
+                            .map(discussionResponse -> DiscussionResponseDto.from(discussionResponse,
+                                    discussionPostsView))
                             .toList());
         }
         return discussionPostBuilder.build();
