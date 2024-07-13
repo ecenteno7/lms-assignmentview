@@ -7,6 +7,7 @@ import org.lms.assignmentview.application.AssignmentView;
 import org.lms.assignmentview.domain.assignment.Assignment;
 import org.lms.assignmentview.domain.assignment.commands.CreateAssignmentCommand;
 import org.lms.assignmentview.domain.course.CourseId;
+import org.lms.assignmentview.domain.discussion.DiscussionPostsView;
 import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserId;
 import org.lms.assignmentview.presentation.rest.dto.discussion.post.DiscussionPostDto;
@@ -59,7 +60,9 @@ public record AssignmentDto(
                             .map(ModuleDto::from)
                             .toList())
                     .insights(assignmentView.insights().stream()
-                            .map(DiscussionPostDto::from)
+                            .map(discussionPost -> DiscussionPostDto.from(discussionPost,
+                                    new DiscussionPostsView(List.of(discussionPost), assignmentView.userDetailsByUser(),
+                                            true)))
                             .toList());
         }
         return assignmentDtoBuilder.build();

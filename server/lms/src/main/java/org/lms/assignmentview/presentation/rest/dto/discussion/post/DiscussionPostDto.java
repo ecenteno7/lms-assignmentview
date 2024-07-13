@@ -7,7 +7,6 @@ import org.lms.assignmentview.domain.discussion.DiscussionPost;
 import org.lms.assignmentview.domain.discussion.DiscussionPostsView;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
 import org.lms.assignmentview.domain.tag.TagId;
-import org.lms.assignmentview.domain.user.Role;
 import org.lms.assignmentview.domain.user.User;
 import org.lms.assignmentview.domain.user.UserDetails;
 import org.lms.assignmentview.domain.user.UserId;
@@ -18,7 +17,6 @@ import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -48,12 +46,6 @@ public record DiscussionPostDto(
 
         @Nullable List<TagDto> tags
 ) {
-
-    // TODO: DELETE THIS METHOD AND REFACTOR SO IT ISN'T NEEDED
-    public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPost discussionPost) {
-        return from(discussionPost, new DiscussionPostsView(List.of(discussionPost), Map.of(discussionPost.getAuthor(),
-                new UserDetails(discussionPost.getAuthor(), "firstName", "lastName", Role.Student)), true));
-    }
 
     public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPost discussionPost,
                                                   @NonNull final DiscussionPostsView discussionPostsView) {
