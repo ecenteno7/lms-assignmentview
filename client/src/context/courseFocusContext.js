@@ -7,7 +7,8 @@ export const CourseFocusProvider = ({ children }) => {
   const [courseFocus, setState] = useState({
     discussionPostFocus: null,
     courseId: null,
-    selectedNav: 'home'
+    selectedNav: 'home',
+    assignmentFocus: null
   })
 
   const setDiscussionPostFocus = (id) => {
@@ -31,8 +32,15 @@ export const CourseFocusProvider = ({ children }) => {
     }))
   }
 
+  const setAssignmentFocus = (id) => {
+    setState(prevState => ({
+      ...prevState,
+      assignmentFocus: id
+    }))
+  }
+
   return (
-    <CourseFocusContext.Provider value={{ courseFocus, setDiscussionPostFocus, setCourseId, setSelectedNav }}>
+    <CourseFocusContext.Provider value={{ courseFocus, setDiscussionPostFocus, setCourseId, setSelectedNav, setAssignmentFocus }}>
       {children}
     </CourseFocusContext.Provider>
   );
