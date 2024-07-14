@@ -1,21 +1,52 @@
-import { useContext, useEffect, useState } from "react"
+import { useState, useEffect, useContext } from "react"
 import { CourseFocusContext } from "../context/courseFocusContext"
-import { CreatePost } from "../components/forms/createPost";
-import { getDiscussionPostDetails } from "../services/api";
+import { getAssignmentList } from "../services/api"
+import { InsightList } from "../components/layout/insightList"
 
 export const PracticeSidebar = () => {
+  const [assignmentList, setAssignmentList] = useState([])
 
-  const { courseFocus } = useContext(CourseFocusContext);
+  const { courseFocus, setAssignmentFocus } = useContext(CourseFocusContext)
+
+  const fetchCockpitInit = () => {
+    if (courseFocus.courseId == null) {
+      return
+    }
+
+    getAssignmentList(courseFocus.courseId).then((res) => {
+      const listElements = createListElements(res.data.assignments)
+      setAssignmentList(listElements)
+    })
+  }
+
+  const createListElements = (els) => {
+    if (els && els.length == 0) {
+      return (<></>)
+    }
+
+    const elements = els.map((el) => {
+      console.log(el)
+      return (
+        <div onClick={() => setAssignmentFocus(el.assignmentID)} className="bg-slate-200 rounded-lg m-2 p-4 text-left font-bold cursor-pointer">
+          <p>{el.title}</p>
+        </div>
+      )
+    })
+
+    return elements
+
+  }
 
   useEffect(() => {
+    fetchCockpitInit()
+  }, [courseFocus])
 
-  }, [])
-  
   return (
-    <div className="p-4">
-      <div className="rounded-xl p-4 bg-slate-200 font-bold w-full h-max max-h-80">
-        Assignment 1 
+    <>
+      <div className="w-full flex flex-row flex flex-row justify-center items-center h-max overflow-auto" >
+        {courseFocus.assignmentFocus != null ? <InsightList /> : assignmentList}
       </div>
-    </div>
-  ) 
+    </>
+  )
 }
+
