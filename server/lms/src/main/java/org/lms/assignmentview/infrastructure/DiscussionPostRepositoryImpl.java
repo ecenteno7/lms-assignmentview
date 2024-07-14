@@ -6,6 +6,7 @@ import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.discussion.DiscussionPost;
 import org.lms.assignmentview.domain.discussion.DiscussionPostId;
 import org.lms.assignmentview.domain.discussion.DiscussionPostRepository;
+import org.lms.assignmentview.domain.tag.TagId;
 import org.lms.assignmentview.infrastructure.jpa.entity.DiscussionPostEntity;
 import org.lms.assignmentview.infrastructure.jpa.repository.JpaDiscussionPostRepository;
 import org.springframework.stereotype.Repository;
@@ -39,6 +40,13 @@ public class DiscussionPostRepositoryImpl implements DiscussionPostRepository {
     @Override
     public @NonNull List<DiscussionPost> findAllByCourseId(@NonNull CourseId courseId) {
         return jpaDiscussionPostRepository.findAllByClassId(courseId.id()).stream()
+                .map(DiscussionPostEntity::toDomain)
+                .toList();
+    }
+
+    @Override
+    public @NonNull List<DiscussionPost> findAllByTagId(@NonNull TagId tagId) {
+        return jpaDiscussionPostRepository.findAllPostsWithTag(UUID.fromString(tagId.id())).stream()
                 .map(DiscussionPostEntity::toDomain)
                 .toList();
     }

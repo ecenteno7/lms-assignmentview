@@ -39,6 +39,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public @NonNull Map<User, UserDetails> findByUsers(@NonNull Set<User> users) {
+        if (users.isEmpty()) {
+            return Map.of();
+        }
         final CourseId courseId = users.stream().map(User::classId).findFirst().orElseThrow();
         if (users.stream().anyMatch(user -> !user.classId().equals(courseId))) {
             throw new IllegalArgumentException("All users must be from the same class.");
