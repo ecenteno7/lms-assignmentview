@@ -27,7 +27,7 @@ export const PracticeSidebar = () => {
     const elements = els.map((el) => {
       console.log(el)
       return (
-        <div onClick={() => setAssignmentFocus(el.assignmentID)} className="bg-slate-200 rounded-lg m-2 p-4 text-left font-bold cursor-pointer">
+        <div onClick={() => setAssignmentFocus(el.assignmentID)} className="bg-slate-200 rounded-lg w-full mb-2 p-4 text-left font-bold cursor-pointer">
           <p>{el.title}</p>
         </div>
       )
@@ -43,7 +43,7 @@ export const PracticeSidebar = () => {
 
   return (
     <>
-      <div className="w-full flex flex-row flex flex-row justify-center items-center h-max overflow-auto" >
+      <div className="w-full flex flex-col justify-center items-center h-max overflow-auto p-4" >
         {courseFocus.assignmentFocus != null ? <InsightList /> : assignmentList}
       </div>
     </>

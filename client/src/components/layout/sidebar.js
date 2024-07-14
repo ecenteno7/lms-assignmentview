@@ -13,31 +13,31 @@ export const Sidebar = () => {
   const { courseFocus, setDiscussionPostFocus } = useContext(CourseFocusContext)
 
   const selectActiveModule = () => {
-    if(!courseFocus) {
+    if (!courseFocus) {
       return
     }
 
     if (courseFocus.selectedNav == "home") {
-      return <HomeSidebar /> 
+      return <HomeSidebar />
     }
-    
+
     if (courseFocus.selectedNav == "content") {
       return (
         <div>
-          Content  
+          Content
         </div>
       )
     }
 
     if (courseFocus.selectedNav == "practice") {
-      return <PracticeSidebar /> 
+      return <PracticeSidebar />
     }
 
     if (courseFocus.selectedNav == "discussion") {
-      return <DiscussionPostSidebar /> 
+      return <DiscussionPostSidebar />
     }
   }
-  
+
 
   return (
     <div className="w-1/3 grid grid-rows-12 space-y-3 mr-4">
@@ -45,7 +45,7 @@ export const Sidebar = () => {
         <Navbar />
       </div>
       <div className="bg-slate-400 w-full row-span-10 rounded-lg">
-        { selectActiveModule() }
+        {selectActiveModule()}
       </div>
       <Chatter />
     </div >
