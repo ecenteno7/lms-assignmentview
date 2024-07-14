@@ -52,9 +52,20 @@ export const markAcceptedAnswer = async (discussionResponseId, acceptedAnswer, c
     responses: [
       {
         discussionResponseID: discussionResponseId,
-        accepted: acceptedAnswer 
+        accepted: acceptedAnswer
       }
     ]
   })
   return res
 }
+
+export const getAssignmentList = async (courseId) => {
+  const res = await axios.get(`/api/courses/${courseId}/assignments`)
+  return res
+}
+
+export const getAssignmentDetails = async (courseId, assignmentId) => {
+  const res = await axios.get(`/api/courses/${courseId}/assignments/${assignmentId}`)
+  return res
+}
+

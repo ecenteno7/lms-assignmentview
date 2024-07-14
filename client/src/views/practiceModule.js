@@ -1,21 +1,39 @@
 import { useContext, useEffect, useState } from "react"
 import { CourseFocusContext } from "../context/courseFocusContext"
-import { CreatePost } from "../components/forms/createPost";
-import { getDiscussionPostDetails } from "../services/api";
+import { getAssignmentDetails } from "../services/api";
+import { AssignmentTitle } from "../components/layout/assignmentTitle"
+import { AssignmentModule } from "../components/layout/assignmentModule";
 
 export const PracticeModule = () => {
 
   const { courseFocus } = useContext(CourseFocusContext);
 
-  useEffect(() => {
+  const [assignment, setAssignment] = useState({})
 
-  }, [])
-  
-  return (
-    <div className="m-4 rounded-xl bg-slate-200 w-full h-max max-h-80 overflow-auto">
-      <p className="font-bold text-2xl text-left p-4">Assignment 1</p>
-      <p className="font-semibold text-xl text-left pl-4">Data Types, Variables, and Basic Scripting</p>
-      <p className="text-left p-4">Use the sidebar on your left to select a hot topic that I've got some important information listed out for.</p>
+  const fetchAssignment = () => {
+    getAssignmentDetails(courseFocus.courseId, courseFocus.assignmentFocus).then(res => {
+      if (res.status == 200) {
+        return res.data
+      }
+      return res
+    }).then(data => {
+      setAssignment(data.assignments[0])
+    })
+  }
+
+  useEffect(() => {
+    if (courseFocus.assignmentFocus == null) {
+      return
+    }
+    fetchAssignment(courseFocus.courseId, courseFocus.assignmentId)
+  }, [courseFocus])
+
+  return assignment && (
+    <div className="flex flex-col w-full">
+      <AssignmentTitle assignment={assignment} />
+      {assignment.modules && (
+        assignment.modules.map(module => <AssignmentModule module={module} />)
+      )}
     </div>
-  ) 
+  )
 }

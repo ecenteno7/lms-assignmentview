@@ -6,7 +6,7 @@ import { PracticeModule } from "../../views/practiceModule"
 
 export const Body = () => {
   const { courseFocus } = useContext(CourseFocusContext);
-  
+
   const selectActiveModule = () => {
     if(!courseFocus) {
       return
@@ -17,17 +17,17 @@ export const Body = () => {
         <HomeModule />
       )
     }
-    
+
     if (courseFocus.selectedNav == "content") {
       return (
         <div>
-          Content  
+          Content
         </div>
       )
     }
 
     if (courseFocus.selectedNav == "practice") {
-      return <PracticeModule /> 
+      return <PracticeModule />
     }
 
     if (courseFocus.selectedNav == "discussion") {
@@ -37,7 +37,7 @@ export const Body = () => {
 
 
   return (
-    <div className="w-2/3 bg-slate-400 rounded-xl flex flex-row justify-center text-slate-800">
+    <div className="w-2/3 p-4 bg-slate-400 rounded-xl flex flex-row justify-center text-slate-800">
       { selectActiveModule() }
     </div >
 
