@@ -22,7 +22,7 @@ export const ReplyList = ({refreshReplies, postDetails, setPostDetails, accepted
       {postDetails && postDetails.responses.length >= 1 && <p className="font-bold text-left text-xl pt-2">Discussion</p>}
       {
         postDetails && postDetails.responses.length >= 1 &&
-        postDetails.responses.slice(1).map(reply => {
+        postDetails.responses.map(reply => {
           const replyDetails = {
              ...reply,
              discussionPostID: postDetails.discussionPostID
