@@ -21,6 +21,16 @@ export const PracticeModule = () => {
     })
   }
 
+  const renderAssignment = () => {
+    console.log(assignment.modules)
+    let id = 0
+    const modules = assignment.modules.map((module) => {
+      id++
+      return <AssignmentModule id={id} module={module} />
+    })
+    return modules
+  }
+
   useEffect(() => {
     if (courseFocus.assignmentFocus == null) {
       return
@@ -28,12 +38,10 @@ export const PracticeModule = () => {
     fetchAssignment(courseFocus.courseId, courseFocus.assignmentId)
   }, [courseFocus])
 
-  return assignment && (
-    <div className="flex flex-col w-full">
-      <AssignmentTitle assignment={assignment} />
-      {assignment.modules && (
-        assignment.modules.map(module => <AssignmentModule module={module} />)
-      )}
+  return (
+    <div id="practice-module" className="flex flex-col w-full">
+      {assignment && <AssignmentTitle id="assignment-title" assignment={assignment} />}
+      {assignment.modules && renderAssignment()}
     </div>
   )
 }
