@@ -16,6 +16,6 @@ public interface DiscussionPostRepository {
 
     @NonNull List<DiscussionPost> findAllByCourseId(@NonNull final CourseId courseId);
 
-    @NonNull List<DiscussionPost> findAllByTagId(@NonNull final TagId tagId);
+    @NonNull List<DiscussionPost> findAllByTagIds(@NonNull final List<TagId> tagIds);
 
 }

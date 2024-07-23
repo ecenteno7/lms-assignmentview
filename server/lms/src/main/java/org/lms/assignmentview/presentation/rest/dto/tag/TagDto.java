@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.NonNull;
 import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.tag.Tag;
+import org.lms.assignmentview.domain.tag.TagId;
 import org.lms.assignmentview.domain.tag.command.CreateTagCommand;
 import org.springframework.lang.Nullable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Builder
 public record TagDto(
@@ -17,7 +19,10 @@ public record TagDto(
 
         @Nullable String name,
 
-        @Nullable String color
+        @Nullable String color,
+
+        @JsonProperty("parentTagID")
+        @Nullable String parentTagId
 ) {
 
     public static @NonNull TagDto from(@NonNull final Tag tag) {
@@ -25,6 +30,9 @@ public record TagDto(
                 .tagId(tag.getId().id())
                 .name(tag.getName())
                 .color(tag.getColor())
+                .parentTagId(tag.getParentTagId()
+                        .map(TagId::id)
+                        .orElse(null))
                 .build();
     }
 
@@ -36,6 +44,9 @@ public record TagDto(
                 .courseId(courseId)
                 .name(name)
                 .color(color)
+                .parentTagId(Optional.ofNullable(parentTagId)
+                        .map(TagId::new)
+                        .orElse(null))
                 .build();
     }
 

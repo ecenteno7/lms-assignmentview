@@ -10,7 +10,7 @@ import org.lms.assignmentview.domain.tag.command.CreateTagCommand;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @AllArgsConstructor
 @Service
@@ -40,11 +40,8 @@ public class AssignmentService {
     }
 
     private @NonNull Assignment createAssignment(@NonNull final CreateAssignmentCommand createAssignmentCommand) {
-        final BiFunction<CourseId, String, Tag> tagGenerator = (classId, title) -> {
-            final CreateTagCommand createTagCommand =
-                    new CreateTagCommand(createAssignmentCommand.creator().classId(), createAssignmentCommand.title(), "#FFFFFF");
-            return tagService.createTags(List.of(createTagCommand)).get(0);
-        };
+        final Function<CreateTagCommand, Tag> tagGenerator =
+                createTagCommand -> tagService.createTags(List.of(createTagCommand)).get(0);
         return Assignment.createAssignment(createAssignmentCommand, tagGenerator);
     }
 

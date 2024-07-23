@@ -45,8 +45,11 @@ public class DiscussionPostRepositoryImpl implements DiscussionPostRepository {
     }
 
     @Override
-    public @NonNull List<DiscussionPost> findAllByTagId(@NonNull TagId tagId) {
-        return jpaDiscussionPostRepository.findAllPostsWithTag(UUID.fromString(tagId.id())).stream()
+    public @NonNull List<DiscussionPost> findAllByTagIds(@NonNull List<TagId> tagIds) {
+        final List<UUID> tagUUIDs = tagIds.stream()
+                .map(tagId -> UUID.fromString(tagId.id()))
+                .toList();
+        return jpaDiscussionPostRepository.findAllPostsWithTag(tagUUIDs).stream()
                 .map(DiscussionPostEntity::toDomain)
                 .toList();
     }

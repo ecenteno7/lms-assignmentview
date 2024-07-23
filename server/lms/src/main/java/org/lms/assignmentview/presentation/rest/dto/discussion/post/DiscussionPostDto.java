@@ -6,6 +6,7 @@ import lombok.NonNull;
 import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.discussion.DiscussionPost;
 import org.lms.assignmentview.domain.discussion.DiscussionPostsView;
+import org.lms.assignmentview.domain.discussion.DiscussionSelection;
 import org.lms.assignmentview.domain.discussion.command.CreateDiscussionPostCommand;
 import org.lms.assignmentview.domain.tag.TagId;
 import org.lms.assignmentview.domain.user.User;
@@ -44,7 +45,9 @@ public record DiscussionPostDto(
 
         @Nullable List<DiscussionResponseDto> responses,
 
-        @Nullable List<TagDto> tags
+        @Nullable List<TagDto> tags,
+
+        @Nullable DiscussionSelectionDto selection
 ) {
 
     public static @NonNull DiscussionPostDto from(@NonNull final DiscussionPost discussionPost,
@@ -61,7 +64,10 @@ public record DiscussionPostDto(
                 .voteCount(discussionPost.getVoteCount())
                 .tags(discussionPost.getTags().stream()
                         .map(TagDto::from)
-                        .toList());
+                        .toList())
+                .selection(discussionPost.getDiscussionSelection()
+                        .map(DiscussionSelectionDto::from)
+                        .orElse(null));
         if (discussionPostsView.displayResponses()) {
             discussionPostBuilder = discussionPostBuilder
                     .content(discussionPost.getContent())
@@ -86,7 +92,11 @@ public record DiscussionPostDto(
                 })
                 .map(tagDto -> new TagId(tagDto.tagId()))
                 .toList();
-        return new CreateDiscussionPostCommand(new User(new UserId(authorId), courseId), title, content, tagIds);
+        final DiscussionSelection discussionSelection = Optional.ofNullable(selection)
+                .map(DiscussionSelectionDto::toDomain)
+                .orElse(null);
+        return new CreateDiscussionPostCommand(new User(new UserId(authorId), courseId), title, content, tagIds,
+                discussionSelection);
     }
 
 }

@@ -17,4 +17,7 @@ public interface TagRepository {
     @NonNull
     List<Tag> saveAll(@NonNull final List<Tag> tags);
 
+    @NonNull
+    List<Tag> findTagWithChildren(@NonNull final TagId tagId);
+
 }

@@ -47,9 +47,15 @@ public class DiscussionPost {
     @Builder.Default
     private final List<Tag> tags = List.of();
 
-    @NonNull
-    public Optional<OffsetDateTime> getUpdatedOn() {
+    @Nullable
+    private final DiscussionSelection discussionSelection;
+
+    public @NonNull Optional<OffsetDateTime> getUpdatedOn() {
         return Optional.ofNullable(updatedOn);
+    }
+
+    public @NonNull Optional<DiscussionSelection> getDiscussionSelection() {
+        return Optional.ofNullable(discussionSelection);
     }
 
     static @NonNull DiscussionPost createDiscussionPost(@NonNull final CreateDiscussionPostCommand command,
@@ -61,9 +67,10 @@ public class DiscussionPost {
                 .title(command.title())
                 .content(command.content())
                 .voteCount(0)
-                .tags(command.tagIds().stream()
+                .tags(command.getReferencedTagIds()
                         .map(tagsById::get)
                         .toList())
+                .discussionSelection(command.discussionSelection())
                 .build();
     }
 
