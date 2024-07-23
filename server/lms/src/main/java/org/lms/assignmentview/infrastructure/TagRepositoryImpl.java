@@ -48,4 +48,11 @@ public class TagRepositoryImpl implements TagRepository {
                 .map(TagEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    public List<Tag> findTagWithChildren(TagId tagId) {
+        return jpaTagRepository.findTagWithChildren(UUID.fromString(tagId.id())).stream()
+                .map(TagEntity::toDomain)
+                .toList();
+    }
 }

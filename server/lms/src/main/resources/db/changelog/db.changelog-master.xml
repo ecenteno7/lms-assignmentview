@@ -49,4 +49,8 @@
         <sqlFile path="db/changelog/scripts/add-selection-index-columns-to-discussion-post-table.sql"/>
     </changeSet>
 
+    <changeSet id="12" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/add-parent-tag-to-tag-table.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

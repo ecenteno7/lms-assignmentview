@@ -4,14 +4,14 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 import org.lms.assignmentview.domain.assignment.commands.CreateModuleCommand;
-import org.lms.assignmentview.domain.course.CourseId;
 import org.lms.assignmentview.domain.tag.Tag;
 import org.lms.assignmentview.domain.tag.TagId;
+import org.lms.assignmentview.domain.tag.command.CreateTagCommand;
 import org.lms.assignmentview.domain.user.User;
 import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @Value
 @Builder(toBuilder = true)
@@ -45,8 +45,10 @@ public class Module {
 
     public static @NonNull Module createModule(@NonNull final CreateModuleCommand createModuleCommand,
                                                @NonNull final AssignmentId assignmentId,
-                                               @NonNull final BiFunction<CourseId, String, Tag> tagGenerator) {
-        final Tag tag = tagGenerator.apply(createModuleCommand.user().classId(), createModuleCommand.title());
+                                               @NonNull final TagId assignmentTagId,
+                                               @NonNull final Function<CreateTagCommand, Tag> tagGenerator) {
+        final Tag tag = tagGenerator.apply(CreateTagCommand.from(createModuleCommand.user().classId(),
+                createModuleCommand.title(), assignmentTagId));
         return Module.builder()
                 .moduleId(ModuleId.createId())
                 .assignmentId(assignmentId)

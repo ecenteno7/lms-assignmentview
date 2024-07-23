@@ -60,7 +60,10 @@ public class DiscussionPostService {
     }
 
     public @NonNull List<DiscussionPost> getDiscussionInsights(@NonNull final TagId tagId) {
-        final List<DiscussionPost> allTaggedPosts = discussionPostRepository.findAllByTagId(tagId);
+        final List<TagId> releventTagIds = tagService.findTagWithChildren(tagId).stream()
+                .map(Tag::getId)
+                .toList();
+        final List<DiscussionPost> allTaggedPosts = discussionPostRepository.findAllByTagIds(releventTagIds);
         return allTaggedPosts.stream()
                 .map(DiscussionPost::withOnlyAcceptedResponses)
                 .filter(discussionPost -> !discussionPost.getResponses().isEmpty())

@@ -12,7 +12,7 @@ public interface JpaDiscussionPostRepository extends JpaRepository<DiscussionPos
 
     List<DiscussionPostEntity> findAllByClassId(String classId);
 
-    @Query(value = "SELECT * FROM discussion_post JOIN post_tags ON post_tags.discussion_post_id = discussion_post.id AND post_tags.tag_id = :tagId", nativeQuery = true)
-    List<DiscussionPostEntity> findAllPostsWithTag(@Param("tagId") UUID tagId);
+    @Query(value = "SELECT * FROM discussion_post JOIN post_tags ON post_tags.discussion_post_id = discussion_post.id AND post_tags.tag_id IN :tagIds", nativeQuery = true)
+    List<DiscussionPostEntity> findAllPostsWithTag(@Param("tagIds") List<UUID> tagIds);
 
 }

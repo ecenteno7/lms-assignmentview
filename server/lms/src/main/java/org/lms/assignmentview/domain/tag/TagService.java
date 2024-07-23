@@ -31,4 +31,8 @@ public class TagService {
         return tagRepository.saveAll(tags);
     }
 
+    public @NonNull List<Tag> findTagWithChildren(@NonNull final TagId tagId) {
+        return tagRepository.findTagWithChildren(tagId);
+    }
+
 }
