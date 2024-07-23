@@ -33,8 +33,7 @@ public class DiscussionPostService {
             @NonNull final List<CreateDiscussionPostCommand> createDiscussionPostCommands
     ) {
         final Set<TagId> tagIds = createDiscussionPostCommands.stream()
-                .map(CreateDiscussionPostCommand::tagIds)
-                .flatMap(List::stream)
+                .flatMap(CreateDiscussionPostCommand::getReferencedTagIds)
                 .collect(Collectors.toSet());
         final Map<TagId, Tag> tagsById = tagService.findAllByIds(tagIds).stream()
                 .collect(toMap(Tag::getId, Function.identity()));
