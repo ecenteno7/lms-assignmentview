@@ -1,4 +1,3 @@
-// AuthProvider.js
 import { createContext, useState } from "react";
 
 export const CourseFocusContext = createContext({});
@@ -9,7 +8,8 @@ export const CourseFocusProvider = ({ children }) => {
     courseId: null,
     selectedNav: 'home',
     assignmentFocus: null,
-    assignmentInsightFocus: null
+    assignmentInsightFocus: null,
+    chatterActive: false,
   })
 
   const setDiscussionPostFocus = (id) => {
@@ -47,10 +47,17 @@ export const CourseFocusProvider = ({ children }) => {
     }))
   }
 
-    return (
-      <CourseFocusContext.Provider value={{ courseFocus, setDiscussionPostFocus, setCourseId, setSelectedNav, setAssignmentFocus, setAssignmentInsightFocus }}>
-        {children}
-      </CourseFocusContext.Provider>
-    );
-  };
+  const setChatterActive = (id) => {
+    setState(prevState => ({
+      ...prevState,
+      chatterActive: id
+    }))
+  }
+
+  return (
+    <CourseFocusContext.Provider value={{ courseFocus, setDiscussionPostFocus, setCourseId, setSelectedNav, setAssignmentFocus, setAssignmentInsightFocus, setChatterActive }}>
+      {children}
+    </CourseFocusContext.Provider>
+  );
+};
 

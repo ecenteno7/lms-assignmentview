@@ -8,7 +8,8 @@ export const SelectableText = ({ description, setSelection }) => {
       setSelection({
         text: selectedText.toString(),
         top: rect.top + window.scrollY,
-        right: rect.right + window.scrollX,
+        left: rect.left + window.scrollX,
+        idx: [description.search(selectedText.toString()), description.length]
       });
     } else {
       setSelection(null);

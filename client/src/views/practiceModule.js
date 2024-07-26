@@ -4,7 +4,8 @@ import { getAssignmentDetails } from "../services/api";
 import { AssignmentTitle } from "../components/layout/assignmentTitle"
 import { AssignmentModule } from "../components/layout/assignmentModule";
 import { SelectableText } from "../components/forms/selectableText";
-
+import { CreatePost } from "../components/forms/createPost";
+import { Modal } from "../components/forms/modal";
 export const PracticeModule = () => {
 
   const { courseFocus } = useContext(CourseFocusContext);
@@ -42,8 +43,8 @@ export const PracticeModule = () => {
     let id = 0
     const modules = assignment.modules.map((module) => {
       id++
-      return <AssignmentModule id={id} module={module} setSelection={setSelectedText}/>
-      })
+      return <AssignmentModule id={id} module={module} setSelection={setSelectedText} />
+    })
     return modules
   }
 
@@ -55,14 +56,14 @@ export const PracticeModule = () => {
   }, [courseFocus])
 
 
-  useEffect(()=> {
-    if (selectedText){
+  useEffect(() => {
+    if (selectedText) {
       setButtonPos({
         top: selectedText.top, left: selectedText.left
       })
     } else {
       setButtonPos({
-        top: 0, left:0
+        top: 0, left: 0
       })
     }
   }, [selectedText])
@@ -71,7 +72,8 @@ export const PracticeModule = () => {
     <div id="practice-module" className="flex flex-col w-full">
       {assignment && <AssignmentTitle id="assignment-title" assignment={assignment} />}
       {assignment.modules && renderAssignment()}
-      {selectedText && <button onClick={handleOpenModal} className="absolute" style={{top: buttonPos.top, right: buttonPos.right}}>+</button>}
+      {selectedText && <button onClick={handleOpenModal} className="fixed rounded-xl bg-slate-400 px-2" style={{ top: buttonPos.top - 15, left: buttonPos.left - 15 }}>+</button>}
+      {isModalOpen && <Modal onClose={handleCloseModal} isOpen={isModalOpen}><CreatePost /></Modal>}
     </div>
   )
 }
