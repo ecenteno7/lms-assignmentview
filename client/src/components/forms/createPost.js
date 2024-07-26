@@ -4,16 +4,17 @@ import { AuthContext } from "../../context/authContext"
 import { CourseFocusContext } from "../../context/courseFocusContext"
 import { getTags } from "../../services/api"
 
-export const CreatePost = () => {
+export const CreatePost = ({ selection, assignmentTagId }) => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [tag, setTag] = useState([])
   const [tags, setTags] = useState([])
   const [submitted, setSubmitted] = useState(true)
+  const [storedSelection, setStoredSelection] = useState({});
 
   const { auth } = useContext(AuthContext)
   const { courseFocus, setDiscussionPostFocus } = useContext(CourseFocusContext)
-
+  
   const handleSubmit = () => {
     createDiscussionPost(courseFocus.courseId,
       {
@@ -22,8 +23,9 @@ export const CreatePost = () => {
             authorID: auth.userDetails.userID,
             title: title,
             content: content,
-            tags: tag
-          }
+            tags: tag,
+            selection: storedSelection,
+          },
         ]
       }).then(res => {
         if (res.status == 200) {
@@ -50,12 +52,18 @@ export const CreatePost = () => {
           <option value={`${tag.tagID}`}> {tag.name}</option >
         )
       })
+      if (assignmentTagId) {
+          setTag([
+            { tagID: assignmentTagId}
+          ])
+      }
       setTags(tagList)
     })
   }
 
   useEffect(() => {
     renderTags()
+    setStoredSelection(selection)
   }, [])
 
 
@@ -72,13 +80,18 @@ export const CreatePost = () => {
         <div className="p-4 w-full h-[65%]">
           <textarea type="text" id="content" onChange={e => setContent(e.target.value)} class="text-start justify-start items-start h-full bg-slate-200 text-gray-900 outline-none text-sm rounded-lg block w-full p-2.5 " placeholder="Content" />
         </div>
-        <p className="text-slate-800 text-left w-full pl-4 font-bold text-xl">Tag</p>
-        <div className="p-4 h-[10%] w-full">
+        {selection ? 
+        null
+        :
+        <>
+          <p className="text-slate-800 text-left w-full pl-4 font-bold text-xl">Tag</p>
+          <div className="p-4 h-[10%] w-full">
           {tags && <select onChange={e => setTag([{ tagID: e.target.value }])} name="Tags" className="rounded-xl p-2 mb-1 w-full ">
             {tags}
           </select>
-          }
+        } 
         </div>
+        </>}
         <div className="flex flex-row h-[10%] w-[25%] justify-center items-center pl-4 pb-4">
           <button onClick={handleSubmit} className="p-2 bg-slate-800 text-white font-bold rounded-xl h-full w-full">Submit</button>
         </div>

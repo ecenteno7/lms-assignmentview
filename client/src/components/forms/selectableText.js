@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export const SelectableText = ({ description, setSelection }) => {
+export const SelectableText = ({ tag, description, setSelection }) => {
   const handleMouseUp = () => {
     const selectedText = window.getSelection();
     if (selectedText.toString().length > 0) {
       const rect = selectedText.getRangeAt(0).getBoundingClientRect();
       setSelection({
         text: selectedText.toString(),
+        tagID: tag,
         top: rect.top + window.scrollY,
         left: rect.left + window.scrollX,
-        idx: [description.search(selectedText.toString()), description.length]
+        startIndex: description.search(selectedText.toString()),
+        endIndex: description.length
       });
     } else {
       setSelection(null);
