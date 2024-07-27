@@ -9,16 +9,16 @@ import { CreateReply } from "../components/forms/createReply";
 import { ReplyList } from "../components/layout/replyList"
 export const DiscussionPostModule = () => {
 
-  const { courseFocus } = useContext(CourseFocusContext);
+  const { courseFocus, setChatterActive } = useContext(CourseFocusContext);
   const { auth } = useContext(AuthContext);
 
   const [postDetails, setPostDetails] = useState(null);
   const [acceptedAnswer, setAcceptedAnswer] = useState(null);
-  
+
   useEffect(() => {
     if (courseFocus.courseId == null || courseFocus.discussionPostFocus == 'CREATE') {
       return
-    } else if (courseFocus.discussionPostFocus){
+    } else if (courseFocus.discussionPostFocus) {
       refreshReplies()
     }
   }, [courseFocus])
@@ -34,13 +34,17 @@ export const DiscussionPostModule = () => {
         console.log(err)
       }).then(post => {
         setPostDetails(post)
-          post.responses.map(reply => {
-            if (reply.accepted) {
-              setAcceptedAnswer(reply)
-            }
-          })
+        post.responses.map(reply => {
+          if (reply.accepted) {
+            setAcceptedAnswer(reply)
+          }
+        })
       })
-  } 
+  }
+
+  useEffect(() => {
+    setChatterActive(false);
+  }, [])
 
   return (
     <div className="flex flex-col items-center w-full max-h-fit pl-4 pr-4 mb-2 overflow-y-auto">
