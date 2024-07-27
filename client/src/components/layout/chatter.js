@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { CourseFocusContext } from "../../context/courseFocusContext";
+import { getCourseChatter } from "../../services/api";
+import { connect } from "../../services/socket";
 import { CreateReply } from "../forms/createReply";
 import { MessageFeed } from "./messageFeed";
 
@@ -8,7 +10,7 @@ import { MessageFeed } from "./messageFeed";
 export const Chatter = () => {
   const { courseFocus, setChatterActive } = useContext(CourseFocusContext)
   const [activeElement, setActiveElement] = useState(null)
-
+  const [msgHistory, setMsgHistory] = useState(null)
   const handleClick = () => {
     setChatterActive(true);
   }
@@ -30,6 +32,17 @@ export const Chatter = () => {
       </div>
     )
   }
+
+  const handleMessageRx = (msg) => {
+    setMsgHistory([...msgHistory, msg])
+  }
+
+  useEffect(() => {
+    getCourseChatter(courseFocus.courseId).then(res => {
+      setMsgHistory(res.messages);
+    });
+    connect(courseFocus.courseId, handleMessageRx);
+  }, [])
 
   useEffect(() => {
     if (!courseFocus.chatterActive) {
