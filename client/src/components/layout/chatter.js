@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { CourseFocusContext } from "../../context/courseFocusContext";
-import { getCourseChatter } from "../../services/api";
-import { connect } from "../../services/socket";
+// import { getCourseChatter } from "../../services/api";
+// import { connect } from "../../services/socket";
 import { CreateReply } from "../forms/createReply";
 import { MessageFeed } from "./messageFeed";
+import { StompSessionProvider, useSubscription } from "react-stomp-hooks";
 
 
 export const Chatter = () => {
@@ -28,7 +29,7 @@ export const Chatter = () => {
     return (
       <div className="w-full p-4">
         <MessageFeed />
-        <CreateReply />
+        <CreateReply mode="socket"/>
       </div>
     )
   }
@@ -38,10 +39,10 @@ export const Chatter = () => {
   }
 
   useEffect(() => {
-    getCourseChatter(courseFocus.courseId).then(res => {
-      setMsgHistory(res.messages);
-    });
-    connect(courseFocus.courseId, handleMessageRx);
+    // getCourseChatter(courseFocus.courseId).then(res => {
+    //   setMsgHistory(res.messages);
+    // });
+    // connect(courseFocus.courseId, handleMessageRx);
   }, [])
 
   useEffect(() => {
@@ -55,7 +56,9 @@ export const Chatter = () => {
 
   return (
     <div className="w-full h-full rounded-lg bg-slate-400 flex justify-center">
-      {activeElement}
+      <StompSessionProvider url={"http://localhost:8080/websocket"}>
+        {activeElement}
+      </StompSessionProvider>
     </div >
   )
 }
