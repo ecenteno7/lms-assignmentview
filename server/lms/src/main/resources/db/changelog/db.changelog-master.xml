@@ -53,4 +53,8 @@
         <sqlFile path="db/changelog/scripts/add-parent-tag-to-tag-table.sql"/>
     </changeSet>
 
+    <changeSet id="13" author="hwittenbrook3">
+        <sqlFile path="db/changelog/scripts/create-message-table.sql"/>
+    </changeSet>
+
 </databaseChangeLog>
