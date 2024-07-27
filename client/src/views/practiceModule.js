@@ -18,7 +18,7 @@ export const PracticeModule = () => {
     top: 0, left: 0
   })
 
-  const handleOpenModal = text => {
+  const handleOpenModal = () => {
     setModalOpen(true);
   }
 
@@ -68,11 +68,11 @@ export const PracticeModule = () => {
   }, [selectedText])
 
   return (
-    <div id="practice-module" className="flex flex-col w-full">
+    <div id="practice-module" className="flex flex-col w-full overflow-auto">
       {assignment && <AssignmentTitle id="assignment-title" assignment={assignment} />}
       {assignment.modules && renderAssignment()}
       {selectedText && <button onClick={handleOpenModal} className="fixed rounded-xl bg-slate-400 px-2" style={{ top: buttonPos.top - 15, left: buttonPos.left - 15 }}>+</button>}
-      {isModalOpen && <Modal onClose={handleCloseModal} isOpen={isModalOpen}><CreatePost selection={selectedText} assignmentTagId={assignment.tagID}/></Modal>}
+      {isModalOpen && <Modal onClose={handleCloseModal} isOpen={isModalOpen}><CreatePost setModalOpen={setModalOpen} selection={selectedText} assignmentTagId={assignment.tagID} /></Modal>}
     </div>
   )
 }

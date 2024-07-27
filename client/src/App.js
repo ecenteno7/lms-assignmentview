@@ -4,7 +4,7 @@ import { Header } from './components/layout/header';
 
 function App() {
   return (
-    <div className="App h-screen">
+    <div className="App overflow-y-hidden h-screen">
       <Header />
       <Landing />
     </div >

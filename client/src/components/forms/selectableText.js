@@ -34,8 +34,8 @@ export const SelectableText = ({ tag, module, setSelection }) => {
   const generateDescription = (start, end, text) => {
     const descriptionOpen = '<p>'
     const descriptionClose = '</p>'
-    const highlightOpen = '</p><mark>'
-    const highlightClosed = '</mark></p>'
+    const highlightOpen = '<mark>'
+    const highlightClosed = '</mark>'
 
     const jsxDescriptionString = `${descriptionOpen}${text.slice(0, start)}${highlightOpen}${text.slice(start, end)}${highlightClosed}${text.slice(end)}${descriptionClose}`
 
@@ -55,7 +55,7 @@ export const SelectableText = ({ tag, module, setSelection }) => {
 
   return (
     <div className="relative">
-      <p className="text-left px-4 pb-4 break-words whitespace-pre-line" >{dynamicDescription}</p>
+      <p className="text-left px-4 pb-4 break-words whitespace-pre-line">{dynamicDescription}</p>
     </div>
   );
 };
