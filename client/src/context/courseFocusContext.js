@@ -10,6 +10,7 @@ export const CourseFocusProvider = ({ children }) => {
     assignmentFocus: null,
     assignmentInsightFocus: null,
     chatterActive: false,
+    moduleHighlight: null,
   })
 
   const setDiscussionPostFocus = (id) => {
@@ -54,8 +55,15 @@ export const CourseFocusProvider = ({ children }) => {
     }))
   }
 
+  const setModuleHighlight = (id) => {
+    setState(prevState => ({
+      ...prevState,
+      moduleHighlight: id
+    }))
+  }
+
   return (
-    <CourseFocusContext.Provider value={{ courseFocus, setDiscussionPostFocus, setCourseId, setSelectedNav, setAssignmentFocus, setAssignmentInsightFocus, setChatterActive }}>
+    <CourseFocusContext.Provider value={{ courseFocus, setDiscussionPostFocus, setCourseId, setSelectedNav, setAssignmentFocus, setAssignmentInsightFocus, setChatterActive, setModuleHighlight }}>
       {children}
     </CourseFocusContext.Provider>
   );

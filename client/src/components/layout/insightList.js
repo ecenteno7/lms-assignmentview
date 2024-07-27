@@ -25,7 +25,9 @@ export const InsightList = () => {
     const insight = {
       title: post.title,
       question: post.content,
-      acceptedAnswer: post.responses[0].content
+      acceptedAnswer: post.responses[0].content,
+      selection: post.selection,
+      moduleTagId: post.selection.tagID
     }
 
     setAssignmentInsightFocus(insight)
