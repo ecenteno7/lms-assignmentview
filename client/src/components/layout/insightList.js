@@ -63,14 +63,16 @@ export const InsightList = () => {
   }
 
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-12 items-center pb-4">
-        <p className="col-span-8 font-bold text-left text-slate-800 text-xl">Assignment Insights</p>
+    <div className="w-full h-full">
+      <div className="h-[10%] grid grid-cols-12 items-center pb-4">
+        < p className="col-span-8 font-bold text-left text-slate-800 text-xl" > Assignment Insights</p >
         <div className="bg-slate-800 p-2 col-span-4 text-white font-bold rounded-xl flex flex-col items-center cursor-pointer" onClick={() => handleBack()}>
           <p className="text-right justify-center items-center">Back</p>
         </div>
       </div >
-      {courseFocus.assignmentInsightFocus == null ? insightList : (<InsightView />)}
+      <div className="h-[90%] pb-4 overflow-y-scroll">
+        {courseFocus.assignmentInsightFocus == null ? insightList : (<InsightView />)}
+      </div>
     </div >
   )
 }
