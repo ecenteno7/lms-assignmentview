@@ -6,6 +6,7 @@ import org.lms.assignmentview.domain.tag.TagId;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface DiscussionPostRepository {
 
@@ -16,6 +17,6 @@ public interface DiscussionPostRepository {
 
     @NonNull List<DiscussionPost> findAllByCourseId(@NonNull final CourseId courseId);
 
-    @NonNull List<DiscussionPost> findAllByTagIds(@NonNull final List<TagId> tagIds);
+    @NonNull Set<DiscussionPost> findAllByTagIds(@NonNull final List<TagId> tagIds);
 
 }

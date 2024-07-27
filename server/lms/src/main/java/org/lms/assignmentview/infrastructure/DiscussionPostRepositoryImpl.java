@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Repository
@@ -45,13 +47,13 @@ public class DiscussionPostRepositoryImpl implements DiscussionPostRepository {
     }
 
     @Override
-    public @NonNull List<DiscussionPost> findAllByTagIds(@NonNull List<TagId> tagIds) {
+    public @NonNull Set<DiscussionPost> findAllByTagIds(@NonNull List<TagId> tagIds) {
         final List<UUID> tagUUIDs = tagIds.stream()
                 .map(tagId -> UUID.fromString(tagId.id()))
                 .toList();
         return jpaDiscussionPostRepository.findAllPostsWithTag(tagUUIDs).stream()
                 .map(DiscussionPostEntity::toDomain)
-                .toList();
+                .collect(Collectors.toSet());
     }
 
 }
