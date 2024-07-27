@@ -69,3 +69,7 @@ export const getAssignmentDetails = async (courseId, assignmentId) => {
   return res
 }
 
+export const getCourseChatter = async (courseId) => {
+  const res = await axios.get(`/api/courses/${courseId}/chatter`)
+  return res
+}
