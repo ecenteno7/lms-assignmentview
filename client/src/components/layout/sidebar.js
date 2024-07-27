@@ -12,6 +12,10 @@ import { PracticeSidebar } from "../../views/practiceSidebar"
 export const Sidebar = () => {
   const { courseFocus, setDiscussionPostFocus } = useContext(CourseFocusContext)
 
+  useEffect(() => {
+    if (courseFocus.chatterActive) { }
+  }, [courseFocus])
+
   const selectActiveModule = () => {
     if (!courseFocus) {
       return

@@ -36,27 +36,27 @@ export const DiscussionPostSidebar = () => {
     return postElements
 
   }
-  
+
   useEffect(() => {
     fetchCockpitInit()
     console.log(discussionPostList)
     console.log(courseFocus)
   }, [courseFocus])
-  
+
   return (
-      <>  
-        <div className="w-full flex flex-row flex flex-row justify-center items-center h-[12%]">
-          <Searchbar />
-          <div className="w-1/6 pt-4 pb-4 pr-4 pl-4 h-full">
-            <button onClick={() => setDiscussionPostFocus("CREATE")} className="bg-slate-800 text-white font-bold rounded-xl p-2.5 w-full h-full text-center flex flex-row justify-center items-center">
-              <IoCreate className="text-3xl text-center w-full h-full"/>
-            </button>
-          </div>
+    <>
+      <div className="w-full flex flex-row flex flex-row justify-center items-center h-[12%]">
+        <Searchbar />
+        <div className="w-1/6 pt-4 pb-4 pr-4 pl-4 h-full">
+          <button onClick={() => setDiscussionPostFocus("CREATE")} className="bg-slate-800 text-white font-bold rounded-xl p-2.5 w-full h-full text-center flex flex-row justify-center items-center">
+            <IoCreate className="text-3xl text-center w-full h-full" />
+          </button>
         </div>
-        <div className="overflow-auto h-5/6 ml-2 mr-2">
-          {discussionPostList}
-        </div>
-      </> 
+      </div>
+      <div className="overflow-y-scroll h-5/6 ml-2 mr-2">
+        {discussionPostList}
+      </div>
+    </>
   )
 }
 

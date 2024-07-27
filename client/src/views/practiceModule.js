@@ -3,12 +3,28 @@ import { CourseFocusContext } from "../context/courseFocusContext"
 import { getAssignmentDetails } from "../services/api";
 import { AssignmentTitle } from "../components/layout/assignmentTitle"
 import { AssignmentModule } from "../components/layout/assignmentModule";
-
+import { SelectableText } from "../components/forms/selectableText";
+import { CreatePost } from "../components/forms/createPost";
+import { Modal } from "../components/forms/modal";
 export const PracticeModule = () => {
 
   const { courseFocus } = useContext(CourseFocusContext);
 
   const [assignment, setAssignment] = useState({})
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedText, setSelectedText] = useState('');
+
+  const [buttonPos, setButtonPos] = useState({
+    top: 0, left: 0
+  })
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  }
 
   const fetchAssignment = () => {
     getAssignmentDetails(courseFocus.courseId, courseFocus.assignmentFocus).then(res => {
@@ -26,7 +42,7 @@ export const PracticeModule = () => {
     let id = 0
     const modules = assignment.modules.map((module) => {
       id++
-      return <AssignmentModule id={id} module={module} />
+      return <AssignmentModule id={id} module={module} setSelection={setSelectedText} />
     })
     return modules
   }
@@ -38,10 +54,25 @@ export const PracticeModule = () => {
     fetchAssignment(courseFocus.courseId, courseFocus.assignmentId)
   }, [courseFocus])
 
+
+  useEffect(() => {
+    if (selectedText) {
+      setButtonPos({
+        top: selectedText.top, left: selectedText.left
+      })
+    } else {
+      setButtonPos({
+        top: 0, left: 0
+      })
+    }
+  }, [selectedText])
+
   return (
-    <div id="practice-module" className="flex flex-col w-full">
+    <div id="practice-module" className="flex flex-col w-full overflow-auto">
       {assignment && <AssignmentTitle id="assignment-title" assignment={assignment} />}
       {assignment.modules && renderAssignment()}
+      {selectedText && <button onClick={handleOpenModal} className="fixed rounded-xl bg-slate-400 px-2" style={{ top: buttonPos.top - 15, left: buttonPos.left - 15 }}>+</button>}
+      {isModalOpen && <Modal onClose={handleCloseModal} isOpen={isModalOpen}><CreatePost setModalOpen={setModalOpen} selection={selectedText} assignmentTagId={assignment.tagID} /></Modal>}
     </div>
   )
 }

@@ -43,7 +43,7 @@ export const PracticeSidebar = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col justify-center items-center h-max overflow-auto p-4" >
+      <div className="w-full h-full flex flex-col items-center p-4" >
         {courseFocus.assignmentFocus != null ? <InsightList /> : assignmentList}
       </div>
     </>
