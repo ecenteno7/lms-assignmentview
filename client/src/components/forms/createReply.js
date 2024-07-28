@@ -1,29 +1,37 @@
 import { useStompClient } from "react-stomp-hooks"
 import { createDiscussionPostReply } from "../../services/api"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "../../context/authContext"
+import { CourseFocusContext } from "../../context/courseFocusContext"
 
 
-export const CreateReply = ({ authorId, courseId, discussionPostId, refreshReplies, mode }) => {
+export const CreateReply = ({ stompClient, authorId, courseId, discussionPostId, refreshReplies, mode }) => {
   const [reply, setReply] = useState("")
-  const stompClient = useStompClient();
 
-  const handleSubmit = () => {
-    if (mode === 'socket') {
+  const { auth } = useContext(AuthContext)
+  const { courseFocus } = useContext(CourseFocusContext)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (mode && mode === 'socket') {
       if (stompClient) {
         stompClient.publish({
-          destination: "/app/chatter/course-id",
-          body: JSON.stringify({'authorID': 'test', 'content': 'test'})
+          destination: `/app/chatter/${courseFocus.courseId}`,
+          body: JSON.stringify({
+            'authorID': auth.userDetails.userID, 'content': reply
+          })
         })
       }
+      setReply("")
     }
     else {
       createDiscussionPostReply(authorId, courseId, discussionPostId, reply)
-      .then(res => {
-        if (res.status == 200) {
-          refreshReplies()
-          setReply("")
-        }
-      })
+        .then(res => {
+          if (res.status == 200) {
+            refreshReplies()
+            setReply("")
+          }
+        })
     }
   }
 
@@ -32,9 +40,11 @@ export const CreateReply = ({ authorId, courseId, discussionPostId, refreshRepli
   }, [reply])
 
   return (
-    <div className="pb-4 pt-4 h-fit flex flex-row">
-      <textarea onChange={e => setReply(e.target.value)} value={reply} type="text" id="search" class="bg-slate-200 text-gray-900 text-sm outline-none rounded-xl w-full h-full p-2.5 " placeholder="Type your response here..." />
-      <button onClick={handleSubmit} className="ml-2 bg-slate-800 rounded-xl text-white font-bold p-2">Submit</button>
-    </div>
+    <form className="pb-4 pt-4 h-fit flex flex-row" onSubmit={handleSubmit}>
+      {mode != "socket" ? <textarea onChange={e => setReply(e.target.value)} value={reply} type="text" id="search" class="bg-slate-200 text-gray-900 text-sm outline-none rounded-xl w-full h-full p-2.5 " placeholder="Type your response here..." />
+        :
+        <input onChange={e => setReply(e.target.value)} value={reply} type="text" id="search" class="bg-slate-200 text-gray-900 text-sm outline-none rounded-xl w-full h-full p-2.5 " placeholder="Type your response here..." />}
+      <button type="submit" className="ml-2 bg-slate-800 rounded-xl text-white font-bold p-2">Submit</button>
+    </form>
   )
 }

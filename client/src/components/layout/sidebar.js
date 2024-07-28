@@ -8,6 +8,8 @@ import { IoCreate } from "react-icons/io5";
 import { DiscussionPostSidebar } from "../../views/discussionPostSidebar"
 import { HomeSidebar } from "../../views/homeSidebar"
 import { PracticeSidebar } from "../../views/practiceSidebar"
+import { StompSessionProvider, useStompClient, useSubscription } from "react-stomp-hooks";
+import { socketUrl } from "../../services/socket"
 
 export const Sidebar = () => {
   const { courseFocus, setDiscussionPostFocus, setChatterActive } = useContext(CourseFocusContext)
@@ -55,7 +57,10 @@ export const Sidebar = () => {
           {selectActiveModule()}
         </div>}
       <div className="bg-slate-400 w-full row-span-10 rounded-lg">
-        <Chatter />
+        <StompSessionProvider url={socketUrl}>
+          <Chatter />
+
+        </StompSessionProvider>
       </div>
     </div >
   )
