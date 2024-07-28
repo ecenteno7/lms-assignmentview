@@ -43,10 +43,10 @@ export const MessageFeed = () => {
     return (
       <div>
         {messageFeed.map((msg) => {
-          return <div className="flex flex-row">
-            <p className="text-slate-400 mr-2">{`${new Date(msg.messageDateTime).getHours()}:${new Date(msg.messageDateTime).getMinutes()}`}</p>
-            <p className="text-slate-800 font-bold">{msg.firstName} {msg.lastName.slice(0, 1)}:</p>
-            <p className="ml-2">{msg.content}</p>
+          return <div className="grid grid-cols-12 mb-3">
+            <p className="text-slate-400 mr-2 col-span-2">{`${new Date(msg.messageDateTime).getHours()}:${new Date(msg.messageDateTime).getMinutes()}`}</p>
+            <p className="text-slate-800 font-bold col-span-3">{msg.firstName} {msg.lastName.slice(0, 1)}:</p>
+            <p className="ml-2 col-span-7">{msg.content}</p>
           </div>
         })} < div ref={messageRef}></div></div >
     )
