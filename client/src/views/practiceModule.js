@@ -8,7 +8,7 @@ import { CreatePost } from "../components/forms/createPost";
 import { Modal } from "../components/forms/modal";
 export const PracticeModule = () => {
 
-  const { courseFocus } = useContext(CourseFocusContext);
+  const { courseFocus, setChatterActive } = useContext(CourseFocusContext);
 
   const [assignment, setAssignment] = useState({})
   const [isModalOpen, setModalOpen] = useState(false);
@@ -66,6 +66,10 @@ export const PracticeModule = () => {
       })
     }
   }, [selectedText])
+
+  useEffect(() => {
+    setChatterActive(false);
+  }, [])
 
   return (
     <div id="practice-module" className="flex flex-col w-full overflow-auto">

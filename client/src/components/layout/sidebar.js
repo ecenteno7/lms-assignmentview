@@ -8,9 +8,11 @@ import { IoCreate } from "react-icons/io5";
 import { DiscussionPostSidebar } from "../../views/discussionPostSidebar"
 import { HomeSidebar } from "../../views/homeSidebar"
 import { PracticeSidebar } from "../../views/practiceSidebar"
+import { StompSessionProvider, useStompClient, useSubscription } from "react-stomp-hooks";
+import { socketUrl } from "../../services/socket"
 
 export const Sidebar = () => {
-  const { courseFocus, setDiscussionPostFocus } = useContext(CourseFocusContext)
+  const { courseFocus, setDiscussionPostFocus, setChatterActive } = useContext(CourseFocusContext)
 
   useEffect(() => {
     if (courseFocus.chatterActive) { }
@@ -27,8 +29,8 @@ export const Sidebar = () => {
 
     if (courseFocus.selectedNav == "content") {
       return (
-        <div>
-          Content
+        <div className="w-full p-4 text-slate-800 font-bold">
+          <div className="w-full p-4 bg-slate-200 rounded-xl text-left">Content</div>
         </div>
       )
     }
@@ -48,10 +50,18 @@ export const Sidebar = () => {
       <div className="bg-slate-400 w-full row-span-1 rounded-lg">
         <Navbar />
       </div>
+      {courseFocus.chatterActive ?
+        <div onClick={() => setChatterActive(false)} className="hover:cursor-pointer bg-slate-400 rounded-lg flex justify-center items-center"><p className="text-xl text-slate-800 font-bold">Insights</p></div>
+        :
+        <div className="bg-slate-400 w-full row-span-10 rounded-lg">
+          {selectActiveModule()}
+        </div>}
       <div className="bg-slate-400 w-full row-span-10 rounded-lg">
-        {selectActiveModule()}
+        <StompSessionProvider url={socketUrl}>
+          <Chatter />
+
+        </StompSessionProvider>
       </div>
-      <Chatter />
     </div >
   )
 

@@ -14,7 +14,8 @@ export const Login = () => {
     setErrMsg("");
   }, [user, pwd]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     userLogin(user, pwd)
       .then((res) => {
         if (res.status == 200) {
@@ -33,7 +34,7 @@ export const Login = () => {
       <div className="pb-10 w-2/5">
         <p className="text-3xl font-bold text-slate-800 ">Login</p>
       </div>
-      <div className="h-2/3 grid grid-rows-10 w-2/5 gap-y-4 flex justify-center items-center">
+      <form onSubmit={handleSubmit} className="h-2/3 grid grid-rows-10 w-2/5 gap-y-4 flex justify-center items-center">
         <input
           type="text"
           id="username"
@@ -55,12 +56,12 @@ export const Login = () => {
           autoComplete="off"
         />
         <button
-          onClick={handleSubmit}
+          type="submit"
           className="bg-slate-800 text-white font-bold rounded-xl h-full row-span-1"
         >
           Login
         </button>
-      </div>
+      </form>
     </div >
   )
 }

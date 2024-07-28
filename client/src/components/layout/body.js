@@ -20,7 +20,7 @@ export const Body = () => {
 
     if (courseFocus.selectedNav == "content") {
       return (
-        <div>
+        <div className="bg-slate-200 text-slate-800 p-4 m-4 rounded-xl font-bold text-2xl w-full">
           Content
         </div>
       )
