@@ -7,8 +7,9 @@ export const MessageFeed = () => {
   const { courseFocus } = useContext(CourseFocusContext)
   const messageRef = useRef();
 
-  const msgHistory = useRef([])
-  const [messageFeed, setMessageFeed] = useState([])
+  const msgHistory = useRef([]);
+  const isHistoryFetched = useRef(false);
+  const [messageFeed, setMessageFeed] = useState([]);
 
   const addMessage = (message) => {
     const newMessage = JSON.parse(message.body)
@@ -18,11 +19,12 @@ export const MessageFeed = () => {
   useSubscription(`/topic/chatter/${courseFocus.courseId}`, addMessage);
 
   useEffect(() => {
-    if (msgHistory.current.length == 0) {
+    if (!isHistoryFetched.current) {
       getCourseChatter(courseFocus.courseId).then(res => {
         msgHistory.current = res.data.messages
         setMessageFeed(res.data.messages)
-      })
+      });
+      isHistoryFetched.current = true;
     }
   }, [messageFeed])
 
