@@ -1,23 +1,30 @@
+import { useStompClient } from "react-stomp-hooks"
 import { createDiscussionPostReply } from "../../services/api"
 import { useEffect, useState } from "react"
 
 
-export const CreateReply = ({ authorId, courseId, discussionPostId, refreshReplies, createReplySvc }) => {
+export const CreateReply = ({ authorId, courseId, discussionPostId, refreshReplies, mode }) => {
   const [reply, setReply] = useState("")
+  const stompClient = useStompClient();
 
   const handleSubmit = () => {
-    if (createReplySvc) {
-      createReplySvc().then(res => {
-
-      })
+    if (mode === 'socket') {
+      if (stompClient) {
+        stompClient.publish({
+          destination: "/app/chatter/course-id",
+          body: JSON.stringify({'authorID': 'test', 'content': 'test'})
+        })
+      }
     }
-    createDiscussionPostReply(authorId, courseId, discussionPostId, reply)
+    else {
+      createDiscussionPostReply(authorId, courseId, discussionPostId, reply)
       .then(res => {
         if (res.status == 200) {
           refreshReplies()
           setReply("")
         }
       })
+    }
   }
 
   useEffect(() => {
