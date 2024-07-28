@@ -94,7 +94,7 @@ export const CreatePost = ({ selection, setModalOpen, assignmentTagId }) => {
             </div>
           </>}
         <div className="flex flex-row h-[10%] w-[25%] justify-center items-center pl-4 pb-4">
-          <button onClick={handleSubmit} className="p-2 bg-slate-800 text-white font-bold rounded-xl h-full w-full">Submit</button>
+          <button type="submit" onClick={handleSubmit} className="p-2 bg-slate-800 text-white font-bold rounded-xl h-full w-full">Submit</button>
         </div>
       </div>
       :

@@ -27,8 +27,8 @@ export const Sidebar = () => {
 
     if (courseFocus.selectedNav == "content") {
       return (
-        <div>
-          Content
+        <div className="w-full p-4 text-slate-800 font-bold">
+          <div className="w-full p-4 bg-slate-200 rounded-xl text-left">Content</div>
         </div>
       )
     }
@@ -49,7 +49,7 @@ export const Sidebar = () => {
         <Navbar />
       </div>
       {courseFocus.chatterActive ?
-        <div onClick={()=>setChatterActive(false)} className="hover:cursor-pointer bg-slate-400 rounded-lg flex justify-center items-center"><p className="text-xl text-slate-800 font-bold">Insights</p></div>
+        <div onClick={() => setChatterActive(false)} className="hover:cursor-pointer bg-slate-400 rounded-lg flex justify-center items-center"><p className="text-xl text-slate-800 font-bold">Insights</p></div>
         :
         <div className="bg-slate-400 w-full row-span-10 rounded-lg">
           {selectActiveModule()}
